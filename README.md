@@ -221,7 +221,6 @@ type SchemaNumberDescriptor = {
     max: number; // конечное значеие
     int?: boolean; // целочисленное
     odd?: boolean; // Нечетное
-    bool?
 };
 
 type SchemaBoolDescriptor = {
