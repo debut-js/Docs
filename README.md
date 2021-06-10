@@ -5,139 +5,136 @@ tr td:not(:nth-child(1)) {
 </style>
 
 # Debut
+<b><a href="/ru">Switch to Russian</a><b/>
 
-Debut - это экосистема для разработки и запуска торговых стратегий. Аналог известного `ZenBot`, но с гораздо более гибкими возможностями для конструирования стратегий. Все что вам нужно сделать, это придумать и описать точки входа в рынок и подключить нужные [плагины](https://github.com/debut-js/Plugins) для работы. Все остальное - дело техники: **генетические алгоритмы** - помогут подобрать самые эффективные параметры для стратегии (период, стопы, и другие), **модуль подбора тикеров** - поможет найти подходящий для стратегии актив (токен или акцию), на котором она будет работать лучше всего.
+Debut is an ecosystem for developing and launching trading strategies. An analogue of the well-known `ZenBot`, but with much more flexible possibilities for constructing strategies. All you need to do is come up with and describe the entry points to the market and connect the necessary [plugins](https://github.com/debut-js/Plugins) to work. Everything else is a matter of technology: **genetic algorithms** - will help you choose the most effective parameters for the strategy (period, stops, and others), **ticker selection module** - will help you find an asset suitable for the strategy (token or share), on which it will work best.
 
-В основе Debut лежит архитектура ядра и надстраиваемых плагинов, позволяющих гибко кастомизировать любые решения. Оснвной целью всей экосистемы Debut, является упрощение процесса создания и запуска рабочих торговых роботов на различные биржи. На данный момент поддерживаются: **Тинькофф Инвестици** и **Binance**.
+Debut is based on the architecture of the core and add-on plugins that allow you to flexibly customize any solution. The main goal of the entire Debut ecosystem is to simplify the process of creating and launching working trading robots on various exchanges. Currently supported: **Tinkoff Investitsi** and **Binance**.
 
-В проекте есть две стартовые торговые стратегии "Для примера" как нужно работать с системой.
+The project has two starting trading strategies "For example" how to work with the system.
 
-Пример работы стратегии [SpikesG](/src/strategies/spikes-grid/ReadMe.md) за 200 дней. Оптимизация проводилась за 180 дней и 20 дней свободной работы на необученных данных.
-Использовался стартовый депозит в размере *500$*
+An example of the strategy [SpikesG](https://github.com/debut-js/Strategies/tree/master/src/strategies/spikes-grid) in 200 days. Optimization was carried out in 180 days and 20 days of free work on untrained data.
+An initial deposit of *$500* was used
 
 <p align="center"><img src="https://github.com/debut-js/Strategies/raw/master/src/strategies/spikes-grid/img/BATUSDT.png" width="800"></p>
 
-Статистика стратегии собиралась на основе плагина [статистики](https://github.com/debut-js/Plugins/tree/master/packages/stats), по ссылке можно подробнее узнать о значении некоторых статистических данных.
+Strategy statistics were collected based on the [Stats plugin](https://github.com/debut-js/Plugins/tree/master/packages/stats), follow the link to learn more about the meaning of some statistics.
 
-Визуализация выполнена с помощью плагина [Report](https://github.com/debut-js/Plugins/tree/master/packages/report).
+Visualization is done using the [Report plugin](https://github.com/debut-js/Plugins/tree/master/packages/report).
 
 ## Community edition
-Мы верим в силу сообщества! Именно поэтому решили опубликовать проект. Комьюнити версия бесплатная, но имеет некоторые ограничения в коммерческом использовании (доход от торговли стартегий не является коммерцией), а также технические отличия в тестировании стратегий. Присоединяйтесь к комьюнити, вступайте в **[чат разработчиков](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
+We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
 ## Enterprise edition
-Энтерпрайз версия - это готовый набор инструментария для "больших дядек", для тех, кто занимается услугами торговли или создания стратегий профессионально. Здесь есть всё! И это всё уже готово работать на вас и на повышение скорости вашей разработки.
+The Enterprise version is a ready-made set of tools for "big guys", for those who are engaged in trade services or create strategies professionally. Everything is here! And this is all ready to work for you and to increase the speed of your development.
 
 
-## Прямой эфир сделок
+## Live orders streaming
 
 <p style="max-width:500px">
 <iframe id="preview" style="height:500px;width:500px;" src="https://xn--r1a.website/s/debutjs"></iframe>
 </p>
-
 <table>
 <thead>
 <tr>
-<th>Функционал</th>
-<th>Community</th>
-<th>Enterprise</th>
+<th> Functionality </th>
+<th> Community </th>
+<th> Enterprise </th>
 </tr>
 </thead>
-<tbody><tr>
-<td>Тестер стратегий</td>
-<td>✅</td>
-<td>✅</td>
+<tbody> <tr>
+<td> Strategy Tester </td>
+<td> ✅ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Эмуляция OHLC тиков в тестере</td>
-<td>✅</td>
-<td>✅</td>
+<td> Emulation of OHLC ticks in the tester </td>
+<td> ✅ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Моудль поиска (finder) подходящих под стратегию активов</td>
-<td>✅</td>
-<td>✅</td>
+<td> Search modle (finder) suitable for the strategy of assets </td>
+<td> ✅ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Набор плагинов из <a href="https://github.com/debut-js/Plugins" target="_blank" rel="noopener">коллекции</a></td>
-<td>✅</td>
-<td>✅</td>
+<td> A collection of plugins from the <a href="https://github.com/debut-js/Plugins" target="_blank" rel="noopener"> collection </a> </td>
+<td> ✅ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Базовый набор готовых торговых стратегий</td>
-<td>✅</td>
-<td>✅</td>
+<td> Basic set of ready-made trading strategies </td>
+<td> ✅ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Данные свеч м1 для эмуляция тиков</td>
-<td>❌</td>
-<td>✅</td>
+<td> M1 candlestick data for tick emulation </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Синтетическая эмуляция тиков в тестере (размер тика не более 0.75%)</td>
-<td>❌</td>
-<td>✅</td>
+<td> Synthetic emulation of ticks in the tester (tick size no more than 0.75%) </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Система управления рисками</td>
-<td>❌</td>
-<td>✅</td>
+<td> Risk Management System </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Отчеты о работе в <a href="https://t.me/debutjs" target="_blank" rel="noopener">мессенджер</a></td>
-<td>❌</td>
-<td>✅</td>
+<td> Work reports in <a href="https://t.me/debutjs" target="_blank" rel="noopener"> messenger </a> </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Готовые решения для запуска на VPS/VDS и Cloud серверах</td>
-<td>❌</td>
-<td>✅</td>
+<td> Ready solutions to run on VPS/VDS and Cloud servers </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Техническая поддержка</td>
-<td>❌</td>
-<td>✅</td>
+<td> Technical Support </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
 <tr>
-<td>Не ограниченое кол-во подключений TCP на Тинькофф API (<a href="https://tinkoffcreditsystems.github.io/invest-openapi/marketdata/" target="_blank" rel="noopener">о лимитах</a>)</td>
-<td>❌</td>
-<td>✅</td>
+<td> System of fast subscriptions to signals by token, for signal sales </td>
+<td> ❌ </td>
+<td> ✅ </td>
 </tr>
-<tr>
-<td>Система быстрых подписок на сигналы по токену, для продаж сигналов</td>
-<td>❌</td>
-<td>✅</td>
-</tr>
-</tbody></table>
+</tbody> </table>
 
-Мы ведем прямой эфир сделок на основе Enterprise решения в нашем [телеграмм канале](https://t.me/debutjs)
+<br/>
 
-**Узнайте цену, отправив запрос на [sales@debutjs.io](mailto:sales@debutjs.io)**
+We conduct live streaming of transactions based on Enterprise solutions in our [telegram channel](https://t.me/debutjs)
 
-**Дисклеймер**
+**Find out the price by sending a request to [sales@debutjs.io](mailto: sales@debutjs.io)**
 
-- Debut не гарантирует 100% вероятности получения прибыли. Используйте его на свой страх и риск, полагаясь на собственный проффесионализм.
-- Криптовалюта это глобальный эксперимент, поэтому Debut - тоже. То есть оба могут выйти из строя в любой момент.
+**Disclaimer**
+
+- Debut does not guarantee 100% probability of making a profit. Use it at your own peril and risk, relying on your own professionalism.
+- Cryptocurrency is a global experiment, so Debut is also. That is, both can fail at any time.
 
 <hr/>
 
-## Модули командной строки
+## Command Line Modules
 
-<h3> Генетический оптимизатор </h3>
+<h3> Genetic Optimizer </h3>
 
-В его основе лежит модуль генетики [async-genetic](https://www.npmjs.com/package/async-genetic), который позволяет находить оптимальные решения для различных задач. Генетический оптимизатор способен гораздо более эффективно подбирать наилучшие параметры, в сравнении сравнению с простым случайным перебором значений (Brutforce).
+It is based on the [async-genetic](https://www.npmjs.com/package/async-genetic) module of genetics, which allows you to find optimal solutions for various problems. The genetic optimizer is able to select the best parameters much more efficiently, compared to simple random enumeration of values ​​(Brutforce).
 
-### Одиночный **genetic**
+### Single **genetic**
 
-Одиночный вызов генетического оптимизатора, используется для настройки стратегии под оптимизацию во время разработки. Например, для проверки на корректность [схемы оптимизации](#geneticschema), прочих этапов создания робота и его работу по время оптимизации в целом.
+A single call to the genetic optimizer, used to tune a strategy for optimization during development. For example, to check the correctness of the [optimization scheme](#geneticschema), other stages of creating a robot and its work during optimization as a whole.
 
-Но может применятся и как разовая оптимизация на заранее известном инструменте, для быстрого получения результата.
+But it can also be used as a one-time optimization on a previously known instrument, for a quick result.
 
-Запускается при помощи вызова команды:
+Started by calling the command:
 
 ```bash
 npm run genetic -- [...args]
 ```
-<h4> Параметры запуска </h4>
+<h4> Run options </h4>
 
 <h5>
 
@@ -145,9 +142,9 @@ npm run genetic -- [...args]
 
 </h5>
 
-__Описание:__ Имя торгового робота из файла `schema.json`
+__Description:__ Name of the trading robot from the file `schema.json`
 
-__Пример:__ `--bot=SpikesG`
+__Example:__ `--bot=SpikesG`
 
 <h5>
 
@@ -155,9 +152,9 @@ __Пример:__ `--bot=SpikesG`
 
 </h5>
 
-__Описание:__ Инструмент для работы, обязательно должен быть в файле `cfgs.ts`, в директории стратегии
+__Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
 
-__Пример:__ `--ticker=AAPL`, `--ticker=BTCUSDT`
+__Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
 <h5>
 
@@ -165,9 +162,9 @@ __Пример:__ `--ticker=AAPL`, `--ticker=BTCUSDT`
 
 </h5>
 
-__Описание:__ Начальная сумма для торговли (от нее считается [equityLevel](#debutoptions)) `schema.json`
+__Description:__ Initial amount for trading (from it is [equityLevel](#debutoptions)) `schema.json`
 
-__Пример:__ `--amount=500`
+__Example:__ `--amount=500`
 
 <h5>
 
@@ -175,9 +172,9 @@ __Пример:__ `--amount=500`
 
 </h5>
 
-__Описание:__ Число дней для загрузки истории, если она есть. Загружаемая история сохраняется в директорию `./history` для переиспользования
+__Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
 
-__Пример:__ `--days=200`
+__Example:__ `--days=200`
 
 <h5>
 
@@ -185,11 +182,11 @@ __Пример:__ `--days=200`
 
 </h5>
 
-__Описание:__ Сколько дней отступить от сегодня перед началом запроса истории
+__Description:__ How many days to deviate from today before starting the history request
 
-__Рекомендации:__ Используется для создания интервала котором не прходило обучение. Если мы передали настройку `--days=150` и настройку `--gap=50` то образуется 50 дней истории для запуска в тестере и тестировании на необученных данных, достаточно будет передать в тестере `--days=200` тогда мы захватим весь период обучения, плюс новые 50 дней отступа
+__Recommendations:__ Used to create a non-training interval. If we passed the `--days=150` setting and the` --gap=50` setting, then 50 days of history will be formed to run in the tester and test on untrained data, it will be enough to pass `--days=200` in the tester, then we will capture the entire training period, plus a new 50 days of indentation
 
-__Пример:__ `--gap=20`
+__Example:__ `--gap=20`
 
 <h5>
 
@@ -197,11 +194,11 @@ __Пример:__ `--gap=20`
 
 </h5>
 
-__Описание:__ Размер популяции в генетическом алгоритме (популяция это кол-во создаваемых стратегий)
+__Description:__ Population size in the genetic algorithm (population is the number of strategies created)
 
-__Рекомендации:__ Размер популяции рекомендуется устанавливать в диапазонах от `100` до `1500`, но больше не значит лучше! Значение весьма индивидуально, большие популяции увеличивают вероятность мутаций и прочих случайных явлений. Делайте фокус на количество поколений
+__Recommendations:__ It is recommended to set the population size in the range from `100` to` 1500`, but bigger is not always better! The meaning is very individual, large populations increase the likelihood of mutations and other random phenomena. Focus on the number of generations
 
-__Пример:__ `--pop=500`
+__Example:__ `--pop=500`
 
 <h5>
 
@@ -209,11 +206,11 @@ __Пример:__ `--pop=500`
 
 </h5>
 
-__Описание:__ Количество поколений в оптимизации
+__Description:__ Number of generations in optimization
 
-__Рекомендации:__ Сила генетики в поколениях, рекомендуемые значения от `10` до `100`, больше значит лучше. Однако следите за переученностью, проверяя стратегию на новых исторических данных. Велика вероятность адаптации к конкретным условиям изменения цены, при очень большом количестве поколений.
+__Recommendations:__ Strength of genetics in generations, recommended values are from `10` to` 100`, more is better. However, watch out for overtraining by testing the strategy against new historical data. There is a high probability of adaptation to specific conditions of price changes, with a very large number of generations.
 
-__Пример:__ `--gen=20`
+__Example:__ `--gen=20`
 
 <h5>
 
@@ -221,9 +218,9 @@ __Пример:__ `--gen=20`
 
 </h5>
 
-__Описание:__ Механизм предназначен для более близкого точного отслеживания изменения цен. Разбивает каждую свечу в истории на 4 тика.
+__Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
 
-__Пример:__ `--ohlc`
+__Example:__ `--ohlc`
 
 <h5>
 
@@ -231,9 +228,9 @@ __Пример:__ `--ohlc`
 
 </h5>
 
-__Описание:__ Сколько лучших результатов выдать в консоль по окончанию оптимизации, по умолчанию `30`
+__Description:__ How many best results to output to the console at the end of optimization, by default `30`
 
-__Пример:__ `--best=20`
+__Example:__ `--best=20`
 
 
 <h5>
@@ -242,35 +239,35 @@ __Пример:__ `--best=20`
 
 </h5>
 
-__Описание:__ Выводить ли промежуточные данные о поколении в консоль
+__Description:__ Whether to output intermediate generation data to the console
 
-__Рекомендации:__ Используйте при разработке стратегий и проверки их в генетике, или вообще всегда.
+__Recommendations:__ Use when developing strategies and testing them in genetics, or generally always.
 
-__Пример:__ `--log`
+__Example:__ `--log`
 
 
-Пример запуска:
+Run example:
 
 ```bash
 npm run compile && npm run genetic -- --bot=SpikesG --ticker=CRVUSDT --days=180 --gap=20 --gen=20 --pop=100 --log --amount=500
 ```
 
 
-### Поиск тикеров **finder**
-Это модуль подбора тикера под стратегию, перебирает все доступные тикеры для акций из файла `./stocks.json`, для криптовалюты из файла `./crypt.json`
-Для каждого тикера выполняется генетический подбор параметров в процессе. На выходе вы получаете готовые результаты для каждого тикера. Удобно оставить на ночь.
+### Find tickers **finder**
+This is a module for selecting a ticker for a strategy, it enumerates all available tickers for stocks from the file `./Stocks.json`, for cryptocurrency from the file`./Crypt.json`
+For each ticker, genetic selection of parameters is performed in the process. As a result, you get ready-made results for each ticker. Convenient to leave overnight.
 
-Результаты будут создаваться в виде отчетов в JSON формате конфигурация + ее статистика. Отчеты складываются в папку `./public/reports/...`
-При работе модифицируются файлы `stocks.json` или `crypt.json`, не забудьте откатить изменения после завершения подбора тикеров.
+The results will be generated as reports in JSON format configuration + its statistics. Reports are stored in the folder `./public/reports/...`
+When working, the files `stocks.json` or` crypt.json` are modified, do not forget to roll back the changes after the selection of tickers is complete.
 
-*Запускается при помощи вызова команды:*
+*Run by calling the command:*
 ```bash
 npm run finder -- [...args]
 ```
 
-<h4> Параметры запуска </h4>
+<h4> Run options </h4>
 
-Основные параметры те же, что и у [genetic](#Одиночный-genetic), с одним отличием
+The main parameters are the same as for [genetic](#Single-genetic), with one difference
 
 <h5>
 
@@ -278,11 +275,11 @@ npm run finder -- [...args]
 
 </h5>
 
-__Описание:__ Использовать ли файл `crypt.json` для работы (по умолчанию используется `stocks.json` со списком акций)
+__Description:__ Whether to use the file `crypt.json` for work (the default is` stocks.json` with a list of stocks)
 
-__Пример:__ `--crypt`
+__Example:__ `--crypt`
 
-__Рекомендации:__ Процесс заканчивает работу после обработки одного тикера, для цикличных перезапусков используйте `pm2`, ниже приведены примеры запусков процесса поиска тикеров.
+__Recommendations:__ The process finishes after processing one ticker, for cyclic restarts use `pm2`, below are examples of starting the ticker search process.
 
 *Mac/Linux*
 ```bash
@@ -293,24 +290,25 @@ npm run compile && pm2 start finder -n instance -- --ticker=NDAQ --bot=SpikesG -
 ```bash
 npm run compile && pm2 start node_modules/@debut/enterprise-core/lib/cli/finder.js -f -- --ticker=ZILUSDT --bot=SpikesG --amount=500 --gen=50 --pop=300 --days=180 --gap=20 --log --useTicks --crypt
 ```
-### Тестер страгий **tester**
-Это модуль тестирования стратегий. Он используется во время разработки, для проверки открытия и закрытия позиций в нужных местах и работы стрегии в целом. Также для создания визуализаций готовых алго стратегий.
+### Strategy tester **tester**
 
-*Запускается при помощи вызова команды:*
+This is a strategy testing module. It is used during development, to check the opening and closing of positions in the right places and the operation of the stregia in general. Also for creating visualizations of ready-made algorithmic strategies.
+
+*Launched by calling the command:*
 ```bash
-npm run testing -- [...args]
+npm run testing - [... args]
 ```
-<h4>Параметры запуска</h4>
 
+<h4> Run Options </h4>
 <h5>
 
 *`--bot=...`*
 
 </h5>
 
-__Описание:__ Имя торгового робота из файла `schema.json`
+__Description:__ Name of the trading robot from the file `schema.json`
 
-__Пример:__ `--bot=SpikesG`
+__Example:__ `--bot=SpikesG`
 
 <h5>
 
@@ -318,9 +316,9 @@ __Пример:__ `--bot=SpikesG`
 
 </h5>
 
-__Описание:__ Инструмент для работы, обязательно должен быть в файле `cfgs.ts`, в директории стратегии
+__Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
 
-__Пример:__ `--ticker=AAPL`, `--ticker=BTCUSDT`
+__Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
 <h5>
 
@@ -328,9 +326,9 @@ __Пример:__ `--ticker=AAPL`, `--ticker=BTCUSDT`
 
 </h5>
 
-__Описание:__ Число дней для загрузки истории, если она есть. Загружаемая история сохраняется в директорию `./history` для переиспользования
+__Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
 
-__Пример:__ `--days=200`
+__Example:__ `--days=200`
 
 <h5>
 
@@ -338,11 +336,11 @@ __Пример:__ `--days=200`
 
 </h5>
 
-__Описание:__ Сколько дней отступить от сегодня перед началом запроса истории
+__Description:__ How many days to deviate from today before starting the history request
 
-__Рекомендации:__ Используется для создания интервала котором не прходило обучение. Если мы передали настройку `--days=150` и настройку `--gap=50` то образуется 50 дней истории для запуска в тестере и тестировании на необученных данных, достаточно будет передать в тестере `--days=200` тогда мы захватим весь период обучения, плюс новые 50 дней отступа
+__Recommendations:__ Used to create a non-training interval. If we passed the `--days=150` setting and the` --gap=50` setting, then 50 days of history will be formed to run in the tester and test on untrained data, it will be enough to pass `--days=200` in the tester, then we will capture the entire training period, plus a new 50 days of indentation
 
-__Пример:__ `--gap=20`
+__Example:__ `--gap=20`
 
 <h5>
 
@@ -350,30 +348,29 @@ __Пример:__ `--gap=20`
 
 </h5>
 
-__Описание:__ Механизм предназначен для более близкого точного отслеживания изменения цен. Разбивает каждую свечу в истории на 4 тика.
+__Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
 
-__Пример:__ `--ohlc`
+__Example:__ `--ohlc`
 
 <h5>
 
-*Пример запуска:*
+*Run example:*
 ```bash
 npm run compile && npm run testing -- --ticker=TSLA --bot=SpikesG --days=200 --olhc
 ```
+## Plugin development
+The architecture of plugins is based on the use of calls to certain functions (hereinafter hooks), in order to intercept events occurring in the system.
+Some types of hooks allow you to stop events, some have a passive status without affecting what is happening. The plugin architecture should be structured in such a way as not to affect performance in the genetic optimizer.
 
-## Разработка плагинов
-Архитектура плагинов посторения на использовании вызовов определенных фукнций (далее хуки), с целью перехвата событий происходящих в системе.
-Некоторые виды хуков позволяют останавливать события, некоторые имеют пассивный статус без влияния на происходящее. Архитектура плагина должны быть выстраена таким образом, чтобы не влиять на производительность в генетическом оптимизаторе.
-
-Весь плагин это функция, возвращающая объект содержаший поле `name` - это имя плагина, оно должно быть уникально в рамках используемых плагинов, `api` - это внешние методы плагина, для вызовов внутри стратегии, ну и остальные поля объекта это набор хуков.
+The whole plugin is a function that returns an object containing the `name` field - this is the name of the plugin, it must be unique within the plugins used,` api` are external plugin methods for calls inside the strategy, well, the rest of the object fields are a set of hooks.
 
 ```javascript
-export function pluginConstructor(): PluginInterface {
+export function pluginConstructor (): PluginInterface {
     const variable = 23;
     return {
         name: 'MyPluginName',
         api: {
-            getVariable() {
+            getVariable () {
                 return variable;
             },
         // ... hooks
@@ -382,107 +379,106 @@ export function pluginConstructor(): PluginInterface {
 
 ```
 
-### Хуки
-Ниже перечислен весь набор доступных хуков плагинов.
+### Hooks
+The entire set of plugin hooks available is listed below.
 
-*`[onInit]: () => void;`*
+* `[onInit]: () => void;` *
 
-Инициализация плагина, здесь можно что-нибудь создать или подключить другой плагин по его имени используя вызов `this.findPlugin(name)`
+Plugin initialization, here you can create something or connect another plugin by its name using the call `this.findPlugin (name)`
 
-*`[async onStart]: () => Promise<void>;`*
+* `[async onStart]: () => Promise <void>;` *
 
-Стратегия подписалась на биржевые данные и получает их в реальном времени.
+The strategy subscribes to stock data and receives it in real time.
 
-*`[async onDispose]: () => Promise<void>;`*
+* `[async onDispose]: () => Promise <void>;` *
 
-Стратегия отписалась от биржевых данных и завершила работу. Хорошая возможность подчистить память плагина.
+The strategy unsubscribed from the exchange data and finished its work. Good opportunity to clean up plugin memory.
 
-*`[async onBeforeOpen]: (order: OrderOptions) => Promise<boolean | void>;`*
+* `[async onBeforeOpen]: (order: OrderOptions) => Promise <boolean | void>; `*
 
-Стратегия пытается открыть сделку, опции сделки доступны в качестве аргумента. Хук поддерживает режим блокировки действия если возвращает `true`, в таком случае сделка не будет создана.
+The strategy tries to open a trade, trade options are available as an argument. The hook supports the action blocking mode if it returns `true`, in which case the deal will not be created.
 
-*`[async onOpen]: (order: ExecutedOrder) => Promise<void>;`*
+* `[async onOpen]: (order: ExecutedOrder) => Promise <void>;` *
 
-Сделка создана, можно получить ее как аргумент и собрать нужные данные о ней. На момент вызова хука операции на рынке уже исполнены.
+The deal is created, you can get it as an argument and collect the necessary data about it. At the time the hook is called, transactions in the market have already been executed.
 
-*`[async onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder) => Promise<boolean | void>;`*
+* `[async onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder) => Promise <boolean | void>; `*
 
-Стратегия пытается закрыть сделку `closing`, опции сделки закрытия доступны в качестве аргумента `order`. Хук поддерживает режим блокировки действия если возвращает `true`, в таком случае сделка не будет закрыта, но попытки ее закрыть будут продолжаться по логике стратегии.
+The strategy tries to close the `closing` deal, the options for the closing deal are available as the` order` argument. The hook supports the action blocking mode if it returns `true`, in which case the trade will not be closed, but attempts to close it will continue according to the logic of the strategy.
 
-*`[async onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;`*
+* `[async onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise <void>;` *
 
-Сделка закрыта, в качестве аргументов передаются сделка которую закрываем `closing` и сделка которой закрываем `order`. На момент вызова хука операции на рынке уже исполнены.
+The deal is closed, the deal which is closed by `closing` and the deal of which we are closed by` order` are passed as arguments. At the time the hook is called, transactions in the market have already been executed.
 
-*`[async onCandle]: (candle: Candle) => Promise<void>;`*
+* `[async onCandle]: (candle: Candle) => Promise <void>;` *
 
-Текущая свеча закрылась. Данные свечи доступны в аргументе `candle`
+The current candle has closed. These candles are available in the `candle` argument
 
-*`[async onAfterCandle]: (candle: Candle) => Promise<void>;`*
+* `[async onAfterCandle]: (candle: Candle) => Promise <void>;` *
 
-Текущая свеча закрылась и отработали хуки `onCandle` можно что-нибудь сделать.
+The current candle has closed and the `onCandle` hooks have worked, you can do something.
 
-*`[async onTick]: (tick: Candle) => Promise<void>;`*
+* `[async onTick]: (tick: Candle) => Promise <void>;` *
 
-Пришел новый тик по текущей свече. Все тики идут в этот обработчик. Также поддерживает блокировку события, если вернет `true`, тик не будет передан стратегии. Используется например для ограничений торговых сессий. Чтобы отключать стратегию от рынка виртуально в зависимости от времени или дня недели или фазы луны.
-
-
-### Контекст выполнения
-
-Все хуки выполняются в контексте плагина, обращения к `this.` внутри любого хука будут привязаны к объекту ниже. Все аргументы передаваемые через хуки мутабильны, так что будьте осторожны.
-
-Сама стратегия доступна как `this.debut` и вы имеете доступ ко всем публичным методам и атрибутам ядра.
-
-`this.debut.orders` - список активных сделок, `this.debut.closeOrder` - закроет сделку, `this.debut.opts` - поможет получить доступ к настройкам стратегии.
+A new tick has arrived for the current candle. All ticks go to this handler. It also supports blocking the event, if it returns `true`, the tick will not be passed to the strategy. Used for example to limit trading sessions. To disconnect the strategy from the market virtually depending on the time or day of the week or the phase of the moon.
 
 
-Интерфейс контекста
+### Execution context
+
+All hooks are executed in the plugin context, calls to `this.` inside any hook will be bound to the object below. All hook arguments are mutable, so be careful.
+
+The strategy itself is available as `this.debut` and you have access to all public methods and kernel attributes.
+
+`this.debut.orders` - a list of active deals,` this.debut.closeOrder` - will close a deal, `this.debut.opts` - will help to access the strategy settings.
+
+
+Context interface
 ```javascript
 interface PluginCtx {
-    findPlugin<T extends PluginInterface>(name: string): T;
+    findPlugin <T extends PluginInterface> (name: string): T;
     debut: DebutCore;
 }
 ```
 
-### Примеры
-#### Простой плагин
-Рассмотрим пример одного из самый простых плагинов, который прибавляет полученую прибыль к существующему балансу стартегии.
+### Examples
+#### Simple plugin
+Let's consider an example of one of the simplest plugins that adds the profit to the existing balance of the strategy.
 
 ```javascript
-import { PluginInterface } from '@debut/types';
-import { orders } from '@debut/plugin-utils';
+import {PluginInterface} from '@debut/types';
+import {orders} from '@debut/plugin-utils';
 
-export function reinvestPlugin(): PluginInterface {
-    // this = undefined здесь
-    // но можно использовать отложенное присвоение так:
+export function reinvestPlugin (): PluginInterface {
+    // this = undefined here
+    // but you can use deferred assignment like this:
     let ctx: PluginCtx;
 
     return {
         name: 'reinvest',
 
-        onInit() {
+        onInit () {
             ctx = this;
         },
 
-        async onClose(order, closing) {
-            // this = PluginCtx  здесь
-            if (!order.openPrice) {
+        async onClose (order, closing) {
+            // this = PluginCtx here
+            if (! order.openPrice) {
                 return;
             }
 
-            const profit = orders.getCurrencyProfit(closing, order.price) - order.commission.value;
+            const profit = orders.getCurrencyProfit (closing, order.price) - order.commission.value;
 
             // this -> PluginCtx
-            this.debut.opts.amount += profit;
+            this.debut.opts.amount +=profit;
         },
     };
 }
 
 ```
 
-#### Плагин шаг за шагом
+#### Plugin step by step
 
-
-**Создадим общий тип плагина и экспортируем его**
+**Create a generic plugin type and export it**
 ```javascript
 export interface DynamicTakesPlugin extends PluginInterface {
     name: 'dynamicTakes';
@@ -490,45 +486,47 @@ export interface DynamicTakesPlugin extends PluginInterface {
 }
 ```
 
-**Экспортируем тип с параметрами плагина, для его подключения к debut.opts**
+**Export the type with plugin parameters to connect it to debut.opts**
 ```javascript
 export type DynamicTakesPluginOptions = {
-    trailing?: boolean;
-    ignoreTicks?: boolean;
-    maxRetryOrders?: number;
+    trailing ?: boolean;
+    ignoreTicks ?: boolean;
+    maxRetryOrders ?: number;
 };
 ```
 
-**Отдельно объявим интерфейс публичных методов плагина (он приватный, экспорта нет)**
+**Separately declare the interface of public methods of the plugin (it is private, there is no export)**
 ```javascript
 interface Methods {
-    setForOrder(orderId: string, takePrice: number, stopPrice: number): void;
-    getTakes(orderId: string): OrderTakes;
+    setForOrder (orderId: string, takePrice: number, stopPrice: number): void;
+    getTakes (orderId: string): OrderTakes;
 }
 ```
 
-**Экспортируем интерфейс API плагина для вызова через `this.plugins.dynamicTakes.setForOrder()` из стратегии**
+**Exporting the plugin API for calling via `this.plugins.dynamicTakes.setForOrder ()` from the strategy**
 ```javascript
 export interface DynamicTakesPluginAPI {
     dynamicTakes: Methods;
 }
 ```
 
-*NB!: Все публичные методы плагинов будут доступны из стратегии с помощью обращения через `this.plugins[имя плагина]`*
+* NB !: All public methods of plugins will be accessible from the strategy by calling `this.plugins [plugin name]` *
 
 
-Полный листинг плагина доступен [здесь](https://github.com/debut-js/Plugins/blob/master/packages/dynamic-takes/index.ts)
+The full plugin listing is available [here](https://github.com/debut-js/Plugins/blob/master/packages/dynamic-takes/index.ts)
 
 
-## Типы данных **@debut/types**
+## Data Types **@debut/types**
 
-Типы данных располагаются в отдельном пакете, для установки выполнить команду
+Data types are located in a separate package, to install, run the command
 
 ```bash
 npm i --save-dev @debut/types
 ```
+
 ### `Candle`
-Форма представление рыночных данных. Используется как для тиков, так и для сформировавшихся свеч. Унифицированный стандарт, не зависит от выбора торговой площадки.
+
+Market data presentation form. It is used both for ticks and for formed candles. Unified standard, independent of the choice of the trading platform.
 
 ```javascript
 interface Candle {
@@ -541,172 +539,173 @@ interface Candle {
 }
 ```
 ### `TimeFrame`
-Унифицированный формат таймфрейма для работы стратегии, в списке только поддерживаемые форматы.
+A unified timeframe format for the strategy, the list contains only supported formats.
 
 ```javascript
 type TimeFrame = '1min' | '3min' | '5min' | '15min' | '30min' | '1h' | '2h' | '4h' | 'day' | 'week' | 'month';
 ```
 ### `WorkingEnv`
-Переменные окружения среды выполнения. Необходимо разделять все этапы производства. Тк для разного окружения требуется разная конфигурация плагинов и режимов работы. Настраиваемые переменные окружения позволяют инициализировать только требуемые для данного окружения механизмы.
+Runtime environment variables. It is necessary to separate all stages of production. Tk for different environments requires a different configuration of plugins and modes of operation. Tunable environment variables allow you to initialize only the mechanisms required for a given environment.
 
 ```javascript
 enum WorkingEnv {
-    'genetic', // стратегия работает в режиме генетической оптимизации
-    'tester', // стратегия работает в режиме тестирования на истории
-    'production', // стратегия работает в режиме реальной торговли
+    'genetic', // strategy works in genetic optimization mode
+    'tester', // the strategy works in backtesting mode
+    'production', // the strategy works in real trading mode
 }
 ```
 
 ### `DebutOptions`
 
-Базовые опции для любой торговой стратегии.
+Basic options for any trading strategy.
 
 ```javascript
 interface DebutOptions {
-    broker: 'tinkoff' | 'binance'; // Тип брокера
-    ticker: string; // Тикер
-    currency: string; // Валюта
-    interval: TimeFrame; // Временной интервал
-    amount: number; // Сумма для работы стратегии
-    fee?: number; // Налог за операцию в дробях
-    id?: number; // Ид конфигурации
-    sandbox?: boolean; // Активен ли режим песочницы или торговля на реальные деньги
-    margin?: boolean; // Разрешена ли торговля в шорт
-    lotsMultiplier?: number; // Множитель лотности, например если нужно сделать х2 или х3 закупку, по умолчанию 1
-    equityLevel?: number; // Склько доступно от общего депозита для текущей стратегии
+    broker: 'tinkoff' | 'binance'; // Broker type
+    ticker: string; // Ticker
+    currency: string; // Currency
+    interval: TimeFrame; // Time interval
+    amount: number; // Amount for the strategy to work
+    fee ?: number; // Tax for the operation in fractions
+    id ?: number; // configuration id
+    sandbox ?: boolean; // Is sandbox mode active or real money trading
+    margin ?: boolean; // Is short trading allowed
+    lotsMultiplier ?: number; // Lot multiplier, for example, if you need to make x2 or x3 purchases, by default 1
+    equityLevel ?: number; // Sklko available from the total deposit for the current strategy
 }
 ```
 
 ### `DebutMeta`
-Базовый класс для определения мета информации о стратегии. Используется во всех файлах `meta.ts` содержащих мета данные.
+Base class for defining strategy meta information. Used in all `meta.ts` files containing meta data.
 
 ```javascript
 interface DebutMeta {
-    parameters: GeneticSchema; // Параметры оптимизации стратегии
-    score: (bot: DebutCore) => number; // Метод подсчета эффективности в генетической оптимизации
-    validate: (cfg: DebutOptions) => false | DebutOptions; // Валидация конфигурации
-    stats: (bot: DebutCore) => unknown; // Метод для получения статистики по роботу, может использоватся любой плагин статистики
-    create: (transport: BaseTransport, cfg: DebutOptions, env: WorkingEnv) => Promise<DebutCore>; // Метод создания стратегии
-    ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean; // Фильтрация тиков, для удаления их из истории при тестированииях, работает также для генетика
+    parameters: GeneticSchema; // Strategy optimization parameters
+    score: (bot: DebutCore) => number; // Method for calculating efficiency in genetic optimization
+    validate: (cfg: DebutOptions) => false | DebutOptions; // Validate the configuration
+    stats: (bot: DebutCore) => unknown; // Method for getting statistics on a robot, any statistics plugin can be used
+    create: (transport: BaseTransport, cfg: DebutOptions, env: WorkingEnv) => Promise <DebutCore>; // Strategy creation method
+    ticksFilter ?: (solution: DebutOptions) => (tick: Candle) => boolean; // Filtering ticks, to remove them from history during testing, also works for a geneticist
 }
 ```
 
 ### `GeneticSchema`
-Объект состоящий из [Дескрипторов](#schemadescriptor) полей, описывающий диапазоны ранжинования полей и типы данных в них. Используется для генерации случайных значений, во время мутирования в генетическом алгоритме, или на начальном этапе для создания первого случайного набора данных.
+An object consisting of [Descriptors](#schemadescriptor) fields, describing the ranges of the ranking of the fields and the data types in them. Used to generate random values, during mutation in a genetic algorithm, or initially to create the first random dataset.
 
-Пример:
+Example:
 ```javascript
-const parameters: GeneticSchema<SpikesGOptions> = {
-    stopLoss: { min: 10, max: 30 }, // float: числа от 10 до 30 с любой дробной частью
-    usePeaks: { bool: true }, // boolean: true или false
-    bandsPeriod: { min: 10, max: 80, int: true }, // int: целые числа от 10 до 80
-    minus: { min: -10, max: -5, int: true }, // int: отрицательные целые числа от -10 до -5
+const parameters: GeneticSchema <SpikesGOptions> = {
+    stopLoss: {min: 10, max: 30}, // float: numbers from 10 to 30 with any fractional part
+    usePeaks: {bool: true}, // boolean: true or false
+    bandsPeriod: {min: 10, max: 80, int: true}, // int: integers from 10 to 80
+    minus: {min: -10, max: -5, int: true}, // int: negative integers from -10 to -5
 };
 ```
 
 ### `SchemaDescriptor`
-Формат ранжирования данных для случайной генерации значений. Поддерживаются `number`, `float` и `boolean` типы.
+A data ranking format for randomly generating values. The `number`,` float` and `boolean` types are supported.
 
 ```javascript
 type SchemaDescriptor = SchemaNumberDescriptor | SchemaBoolDescriptor;
 
 type SchemaNumberDescriptor = {
-    min: number; // начальное значение
-    max: number; // конечное значеие
-    int?: boolean; // целочисленное
-    odd?: boolean; // Нечетное
+    min: number; // initial value
+    max: number; // final value
+    int ?: boolean; // integer
+    odd ?: boolean; // odd
 };
 
 type SchemaBoolDescriptor = {
-    bool: true; // булево
+    bool: true; // boolean
 };
 ```
 
 ### `OrderType`
-Поддерживаемые типы сделок. *На данный момент поддерживаются только рыночные сделки*
+Supported deal types. * Currently only market trades are supported *
 
 ```javascript
 enum OrderType {
-    'BUY' = 'BUY', // Покупка по маркету
-    'SELL' = 'SELL', // Продажа по маркету или шорт, в случае отсутствия позиций и разрешения маржинальной торговли
+    'BUY' = 'BUY', // Buy by market
+    'SELL' = 'SELL ', // Sell by market or short, in case of no positions and margin trading is allowed
 }
 ```
 ### `ExecutedOrder`
 
 ```javascript
 interface ExecutedOrder {
-    // Выбранный брокер для торговли
+    // Selected broker for trading
     broker: string;
-    // Тип сделки из OrderType
+    // Deal type from OrderType
     type: OrderType;
-    // Тикер инструмента на бирже
+    // Ticker of the instrument on the exchange
     ticker: string;
-    // Время свечи на которой был исполнен
+    // Time of the candle on which it was executed
     time: number;
-    // Идентификатор актива на бирже, если поддерживается биржей
-    figi?: string;
-    // Валюта операции, в которой измеряется баланс например:
-    // тикер XRPBTC - валюта сделки будет BTC,
-    // тикер BTCUSDT - валюта это USDT,
-    // в случае покупки акций это фиат за который продется акция.
+    // Identifier of the asset on the exchange, if supported by the exchange
+    figi ?: string;
+    // Operation currency in which the balance is measured for example:
+    // ticker XRPBTC - the transaction currency will be BTC,
+    // ticker BTCUSDT - currency is USDT,
+    // in case of buying shares, this is fiat for which the share will be sold.
     currency: string;
-    // Таймфрейм свечей на котором работаем
+    // Timeframe of candles on which we work
     interval: TimeFrame;
-    // Подпись стратегии (имя)
+    // Strategy signature (name)
     author: string;
-    // Цена выполнения заявки
+    // Order execution price
     price: number;
-    // Запрошеное количество лотов
+    // Requested number of lots
     lots: number;
-    // Размер лота, например в российских акциях в одном лоте может быть 1000 шт, по умолчанию lotSize = 1
+    // Lot size, for example, in Russian stocks one lot can be 1000 pieces, by default lotSize = 1
     lotSize: number;
-    // Размер пункта (Минимальное изменение цены)
+    // Pip size (Minimum price change)
     pipSize: number;
-    // Фтаг песочницы (Используется в Enterprise версии)
+    // Sandbox Ftag (Used in Enterprise version)
     sandbox: boolean;
-    // Является ли сделка закрывающей, то есть гасящей ранее открытую.
-    // Для таких сделок будут заполнены поля openId и openPrice
+    // Whether the deal is closing, that is, canceling the previously opened one.
+    // For such transactions, the openId and openPrice fields will be filled
     close: boolean;
-    // Цена открытия. Только для сделок закрывающих позицию
-    openPrice?: number;
-    // Идентификатор сделки создавшей позицию. Только для закрывающих сделок
-    openId?: string;
-    // Множитель лотности, на него умножались лоты, для закупки. Используется для удобства работы с мартингейл системами.
-    lotsMultiplier?: number;
-    // Сколько средств берем от выделенных стратегии, значение в процентах считается от opts.amout поля
-    // Пример: 0-1, 0 - 0%, 1 - 100%. 0.25 = 25%.
-    equityLevel?: number;
-    // Была ли выполнена сделка в фазе обучения на тестовых данных
-    learning?: boolean;
-    // Только для Binance - использовался ли cross margin счет
-    margin?: boolean;
-    // Только для Binance - использовался ли cross futures счет
-    futures?: boolean;
-    // Идентификатор сделки
+    // Opening price. Only for deals that close the position
+    openPrice ?: number;
+    // Identifier of the deal that created the position. For closing deals only
+    openId ?: string;
+    // Lot multiplier, lots were multiplied by it for purchase. Used for the convenience of working with martingale systems.
+    lotsMultiplier ?: number;
+    // How much money we take from the allocated strategy, the value as a percentage is calculated from the opts.amout field
+    // Example: 0-1, 0 - 0%, 1 - 100%. 0.25 = 25%.
+    equityLevel ?: number;
+    // Whether a deal was executed in the training phase on test data
+    learning ?: boolean;
+    // For Binance only - whether a cross margin account was used
+    margin ?: boolean;
+    // For Binance only - whether a cross futures account was used
+    futures ?: boolean;
+    // Trade ID
     orderId: string;
-    // Сколько лотов было куплено, может отличаться по количеству от запрошенных, по причинам работы биржи
+    // How many lots were purchased may differ in quantity from the requested ones, due to the reasons of the exchange
     executedLots: number;
-    // Данные о комиссии, валюта комиссии и размер
-    commission: { currency: string; value: number };
-    // Инидикация выполнения операций на рынке для данной сделки.
-    // true - начались сетевые взаимодействия. false - нет или закончились
-    processing?: boolean;
+    // Commission data, commission currency and size
+    commission: {currency: string; value: number};
+    // Initiate the execution of transactions in the market for this deal.
+    // true - network interactions have started. false - no or over
+    processing ?: boolean;
 }
 ```
+
 ### `Instrument`
-Параметры торгового инструмента.
+Trading instrument parameters.
 
 ```javascript
 interface Instrument {
-    // Идентификатор актива на бирже, если поддерживается биржей
-    figi?: string;
-    // Тикер на бирже
+    // Identifier of the asset on the exchange, if supported by the exchange
+    figi ?: string;
+    // Ticker on the exchange
     ticker: string;
-    // Размер пункта
-    pipSize?: number;
-    // Размер одного лота для покупки (по умолчанию 1)
+    // Point size
+    pipSize ?: number;
+    // Size of one lot to buy (default 1)
     lot: number;
-    // С какой точностью указываются лоты, например значение 6 = 0.000001
+    // With what precision the lots are indicated, for example, value 6 = 0.000001
     lotPrecision: number;
 }
 ```
