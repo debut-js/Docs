@@ -1,0 +1,25 @@
+{
+  "name": "debut-docs",
+  "version": "1.0.0",
+  "description": "<style> tr td:not(:nth-child(1)) {    text-align: center; } </style>",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debut-js/Docs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/debut-js/Docs/issues"
+  },
+  "homepage": "https://github.com/debut-js/Docs#readme",
+  "dependencies": {
+    "docsify": "^4.12.1"
+  }
+}
