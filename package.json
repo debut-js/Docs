@@ -7,8 +7,12 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "docsify start . -c ssr.config.js",
+    "deploy": "now -p"
   },
+  "files": [
+    "docs"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/debut-js/Docs.git"
@@ -21,5 +25,19 @@
   "homepage": "https://github.com/debut-js/Docs#readme",
   "dependencies": {
     "docsify": "^4.12.1"
+  },
+  "devDependencies": {
+    "docsify-cli": "^4.4.3",
+    "docsify-server-renderer": "^4.12.1",
+    "now": "^21.0.1"
+  },
+  "docsify": {
+    "config": {
+      "basePath": "http://debutjs.io/",
+      "loadSidebar": true,
+      "loadNavbar": true,
+      "coverpage": true,
+      "name": "Debut"
+    }
   }
 }
