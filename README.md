@@ -5,7 +5,7 @@ tr td:not(:nth-child(1)) {
 </style>
 
 # Debut
-<b><a href="/ru">Switch to Russian</a><b/>
+<b><a href="/ru">Switch to Russian</a></b>
 
 Debut is an ecosystem for developing and launching trading strategies. An analogue of the well-known `ZenBot`, but with much more flexible possibilities for constructing strategies. All you need to do is come up with and describe the entry points to the market and connect the necessary [plugins](https://github.com/debut-js/Plugins) to work. Everything else is a matter of technology: **genetic algorithms** - will help you choose the most effective parameters for the strategy (period, stops, and others), **ticker selection module** - will help you find an asset suitable for the strategy (token or share), on which it will work best.
 
