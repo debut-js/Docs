@@ -117,6 +117,171 @@ We conduct live streaming of transactions based on Enterprise solutions in our [
 
 <hr/>
 
+## Core Debut
+### Runtime Data
+
+<h5>
+
+*`this.candles[]`*
+
+</h5>
+
+__Description:__ Array of candles [Candle](#candle) (last 10), `this.candles[0]` - the current not closed candle, `this.candles[1]` - the previous closed candle.
+
+__Example:__
+```javascript
+const currentCandle = this.candles[0];
+const prevCandle = this.candles[1];
+
+// Quick access to the last two candles
+this.currentCandle // Equivalent to this.candles[0]
+this.prevCandle // Equivalent to this.candles[1]
+```
+
+<h5>
+
+*`this.order[]`*
+
+</h5>
+
+__Description:__ Array of open positions [ExecutedOrder](#executedorder) in the opening order `this.orders[0]` - the first
+
+__Example:__
+```javascript
+const currentOrder = this.orders[0];
+```
+
+<h5>
+
+*`this.plugins`*
+
+</h5>
+
+__Description:__ Public methods of plugins. The object `this.plugins` is generated automatically when registering plugins. As a rule: `this.plugins[name] = PluginAPI`, where name is the unique name of the plugin.
+
+__Example:__
+```javascript
+this.plugins.report.disableProfitPlot(); // call the plugin control method report
+```
+
+### Public Methods
+
+<h5>
+
+*`this.registerPlugins(PluginInterface[])`*
+
+</h5>
+
+__Description:__ Register plugins. It can be called at any convenient moment, but it is recommended to register all the necessary plugins at the stage of creation in the strategy constructor or in the environment constructor in the meta file
+
+__Example:__
+```javascript
+this.registerPlugins([debugPlugin()]);
+```
+
+<h5>
+
+*`this.start()`*
+
+</h5>
+
+__Description:__ When called, a subscription to ticks for the current transport (Binance / Tinkfff / Tester) will be created. In production, it creates a web socket connection to the exchange and receives updates by the ticker from the settings.
+
+__Example:__
+```javascript
+this.start();
+```
+
+<h5>
+
+*`this.getName()`*
+
+</h5>
+
+__Description:__ Returns the name of the strategy constructor, in fact the name of the strategy. For various needs, for example, for logging, so that it is clear by what strategy the event occurred.
+
+__Example:__
+```javascript
+const name = this.getName();
+console.log(name, this.orders);
+```
+
+<h5>
+
+*`this.closeAll(): Promise<ExecutedOrder[]>;`*
+
+</h5>
+
+__Description:__ Sequentially closes all open positions from the `this.orders` array, returns the [ExecutedOrders](#executedorder) array of closed deals
+
+__Example:__
+```javascript
+await this.closeAll();
+```
+
+<h5>
+
+*`this.createOrder(operation: OrderType): Promise<ExecutedOrder>;`*
+
+</h5>
+
+__Description:__ Creates a trade on the market with the direction [OrderType](#ordertype)
+
+__Example:__
+```javascript
+const executedOrder = await this.createOrder(OrderType.BUY);
+```
+
+<h5>
+
+*`this.closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;`*
+
+</h5>
+
+__Description:__ Closes the specified application. Accepts a previously executed order as input [ExecutedOrder](#executedorder)
+
+__Example:__
+```javascript
+const openedOrder = this.orders[0];
+const executedOrder = await this.closeOrder(openedOrder);
+```
+
+<h5>
+
+*`this.learn(days: number): Promise<void>;`*
+
+</h5>
+
+__Description:__ Submitting historical data to the bot as a pre-start stage. It is necessary for the bot to enter the market with these indicators and possibly open trades in order to make a smooth transition to real trades. All trades opened in the training mode will be closed safely bypassing the real balance of the broker.
+
+__Example:__
+```javascript
+const bot = await meta.create(getTransport(config), config, WorkingEnv.production);
+await bot.learn(60);
+await bot.start();
+```
+
+### Hooks
+Hooks are a set of `protected` methods for quick access to ticks, new candles, creating deals, etc.
+
+Implement any of these methods in the strategy, and it will be automatically called upon this or that event during the strategy operation.
+
+One of the positions was closed:
+
+`onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise <void>`
+
+Position opened:
+
+`onOrderOpened (order: ExecutedOrder): Promise <void>`
+
+The candlestick has closed and it can be processed (for example, passed to indicators):
+
+`onCandle (candle: Candle): Promise <void>`
+
+A new tick has arrived from the websocket of the exchange or tester
+
+`onTick (tick: Candle): Promise <void>`
+
 ## Command Line Modules
 
 <h3> Genetic Optimizer </h3>
