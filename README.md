@@ -140,7 +140,7 @@ this.prevCandle // Equivalent to this.candles[1]
 
 <h5>
 
-*`this.order[]`*
+*`this.orders[]`*
 
 </h5>
 
