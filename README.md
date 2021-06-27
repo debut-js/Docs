@@ -76,7 +76,7 @@ The Enterprise version is a ready-made set of tools for "big guys", for those wh
 <td align="center"> ❌ </td>
 <td align="center"> ✅ </td>
 </tr>
-<td> Report analyzer for `finder`. Creates screenshots from json files of reports and groups them according to efficiency </
+<td> Report analyzer for `finder`. Creates screenshots from json files of reports and groups them according to efficiency </td>
 <td align="center"> ❌ </td>
 <td align="center"> ✅ </td>
 </tr>
