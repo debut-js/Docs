@@ -291,6 +291,8 @@ await bot.start();
 
 </h5>
 
+***Only for Enterprise version***
+
 __Description:__ Creation of an aggregator of candles, which will accumulate data for the formation of candles of higher timeframes and call the corresponding hook at the end of their formation.
 
 __Example:__
