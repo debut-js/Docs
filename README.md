@@ -27,9 +27,20 @@ Visualization is done using the [Report plugin](https://github.com/debut-js/Plug
 ## Community edition
 We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
-## Premium
-
+## Premium access
 ### Enterprise edition
+
+<h5> Timeframe Aggregator </h5>
+This is a kernel module responsible for aggregating candlesticks `1min` ticks in any other available time periods.
+It allows you to create timeframes supported by `Debut` even if they are not supported by the broker. And also get access to a candlestick of any higher timeframe, for example, build daily support and resistance levels, take indicator readings from four hourly candles, and much more. Below is an example of registering access to a `day` timeframe.
+
+<h5> Advanced tick emulation </h5>
+Allows to emulate ticks in a test environment with maximum accuracy, by creating price changes based on `1min` ticks, split into open, high, low, close. To collect timeframes, the aggregation module into candles of any time interval is used.
+
+
+<h5> Additional callbacks in plugins </h5>
+Additional callbacks are used in the premium version of Debut to expand the functionality of creating plugins. More details can be found in the plugins description section.
+
 The Enterprise version is a ready-made set of tools for "big guys", for those who are engaged in trade services or create strategies professionally. Everything is here! And this is all ready to work for you and to increase the speed of your development. **($100/mo [buy now!](https://www.patreon.com/bePatron?u=57560983))**
 
 <table>
@@ -274,6 +285,42 @@ await bot.learn(60);
 await bot.start();
 ```
 
+<h5>
+
+* `this.useMajorCandle (timeframe: TimeFrame): void;` *
+
+</h5>
+
+__Description:__ Creation of an aggregator of candles, which will accumulate data for the formation of candles of higher timeframes and call the corresponding hook at the end of their formation.
+
+__Example:__
+
+```javascript
+/**
+ * Debut trading strategy builder
+ */
+constructor (transport: BaseTransport, opts: DebutOptions) {
+    super (transport, opts);
+    // ...
+    this.useMajorCandle ('day'); // aggregator registration for daily time intervals
+    this.useMajorCandle ('4h'); // aggregator registration for 4 hour intervals
+}
+
+/**
+ * Hook to track candle closes from higher time frames
+ */
+async onMajorCandle (candle: Candle, timeframe: TimeFrame) {
+    console.log (candle); // {o: ..., h: ..., l: ..., c: ..., v: ..., time: ...};
+    console.log (timeframe); // 'day' or '4h'
+
+    // Update the daily indicator, for example SMA
+    if (timeframe === 'day') {
+        this.daySMAValue = this.daySMA.nextValue (candle.c);
+    }
+}
+
+```
+
 ### Hooks
 Hooks are a set of `protected` methods for quick access to ticks, new candles, creating deals, etc.
 
@@ -291,9 +338,14 @@ The candlestick has closed and it can be processed (for example, passed to indic
 
 `onCandle (candle: Candle): Promise <void>`
 
-A new tick has arrived from the websocket of the exchange or tester
+A new tick has arrived from the websocket of the exchange or tester:
 
 `onTick (tick: Candle): Promise <void>`
+
+A candlestick from a higher timeframe closed:
+*** Only for Enterprise version ***
+
+`onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
 
 ## Command Line Modules
 
