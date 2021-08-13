@@ -150,7 +150,7 @@ The Enterprise version is a ready-made set of tools for "big guys", for those wh
 
 </h5>
 
-__Description:__ Array of candles [Candle](#candle) (last 10), `this.candles[0]` - last closed candle, `this.candles[1]` - the previous closed candle.
+__Description:__ Array of candles [Candle](#candle) (last 10), `this.candles[0]` - current not closed candle, `this.candles[1]` - last known closed candle.
 
 __Example:__
 ```javascript
