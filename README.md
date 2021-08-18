@@ -28,7 +28,7 @@ Visualization is done using the [Report plugin](https://github.com/debut-js/Plug
 We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
 ## Premium access
-### Enterprise edition
+### @debut/enterprise-core
 
 <h5> Timeframe Aggregator </h5>
 This is a kernel module responsible for aggregating candlesticks `1min` ticks in any other available time periods.
