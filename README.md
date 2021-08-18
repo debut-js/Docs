@@ -41,7 +41,7 @@ Allows to emulate ticks in a test environment with maximum accuracy, by creating
 <h5> Additional callbacks in plugins </h5>
 Additional callbacks are used in the premium version of Debut to expand the functionality of creating plugins. More details can be found in the plugins description section.
 
-The Enterprise version is a ready-made set of tools for "big guys", for those who are engaged in trade services or create strategies professionally. Everything is here! And this is all ready to work for you and to increase the speed of your development. **($100/mo [buy now!](https://www.patreon.com/bePatron?u=57560983))**
+The Enterprise version is a ready-made set of tools for "big guys", for those who are engaged in trade services or create strategies professionally. Everything is here! And this is all ready to work for you and to increase the speed of your development. **($15/mo [buy now!](https://www.patreon.com/bePatron?u=57560983))**
 
 <table>
 <thead>
