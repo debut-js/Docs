@@ -27,7 +27,8 @@ Visualization is done using the [Report plugin](https://github.com/debut-js/Plug
 ## Community edition
 We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
-## Enterprise edition (Available by **[subscription](https://www.patreon.com/bePatron?u=57560983)** for $15/mo)
+## Enterprise edition 
+**(Available by [subscription](https://www.patreon.com/bePatron?u=57560983) for $15/mo)**
 
 ### What is inside?
 
