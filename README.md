@@ -27,8 +27,9 @@ Visualization is done using the [Report plugin](https://github.com/debut-js/Plug
 ## Community edition
 We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
-## Premium access
-### @debut/enterprise-core
+## Enterprise edition (Available by **[subscription] (https://www.patreon.com/bePatron?u=57560983)** for $15/mo)
+
+### What is inside?
 
 <h5> Timeframe Aggregator </h5>
 This is a kernel module responsible for aggregating candlesticks `1min` ticks in any other available time periods.
@@ -41,68 +42,16 @@ Allows to emulate ticks in a test environment with maximum accuracy, by creating
 <h5> Additional callbacks in plugins </h5>
 Additional callbacks are used in the premium version of Debut to expand the functionality of creating plugins. More details can be found in the plugins description section.
 
-The Enterprise version is a ready-made set of tools for "big guys", for those who are engaged in trade services or create strategies professionally. Everything is here! And this is all ready to work for you and to increase the speed of your development. **($15/mo [buy now!](https://www.patreon.com/bePatron?u=57560983))**
+The Enterprise version is a ready-made set of tools for the "big guys", for those who trade in services or professionally create strategies. All here! And all this is ready to work for you and increase the speed of your development.
 
-<table>
-<thead>
-<tr>
-<th> Functionality </th>
-<th> Community </th>
-<th> Enterprise </th>
-</tr>
-</thead>
-<tbody> <tr>
-<td> Strategy Tester </td>
-<td align="center"> ✅ </td>
-<td align="center"> ✅ </td>
-</tr>
-<tr>
-<td> Emulation of OHLC ticks in the tester </td>
-<td align="center"> ✅ </td>
-<td align="center"> ✅ </td>
-</tr>
-<tr>
-<td> Search modle (finder) suitable for the strategy of assets </td>
-<td align="center"> ✅ </td>
-<td align="center"> ✅ </td>
-</tr>
-<tr>
-<tr>
-<td> M1 candlestick data for tick emulation </td>
-<td align="center"> ❌ </td>
-<td align="center"> ✅ </td>
-</tr>
-<tr>
-<td> Synthetic emulation of ticks in the tester (tick size no more than 0.75%) </td>
-<td align="center"> ❌ </td>
-<td align="center"> ✅ </td>
-</tr>
-<tr>
-<td> Access to major candles from working timeframe</td>
-<td align="center"> ❌ </td>
-<td align="center"> ✅ </td>
-</tr>
-<tr>
-<td> <b>Alpaca</b> supports `5min`, `15min` and others Debut timeframes </td>
-<td align="center"> ❌ </td>
-<td align="center"> ✅ </td>
-</tr>
-<td> Report analyzer for `finder`. Creates screenshots from json files of reports and groups them according to efficiency </td>
-<td align="center"> ❌ </td>
-<td align="center"> ✅ </td>
-</tr>
-</tbody> </table>
+<h5> Synthetic tick emulation </h5>
+Additional division of large ticks (for example, if there was a large price change in 1 minute) into components moving chaotically in the direction of price change, thus, emulating a real fast market movement in the right direction, providing a tick size of no more than 0.75%
 
-### Personal edition
-*Have no strategies from out of the box.*
+<h5> Alpaca </b> supports `5min`,` 15min` and other debut time frames </h5>
+Thanks to the aggregation of candles, Alpaca supports timeframes artificially, despite the lack of support on the server.
 
-- Enterprise core inside!
-- Report with order screenshots and stats in to you messenger direct
-- Money management formula for strategy equity auto calculation
-- Fast genetic result analyser and viewer
-- Private chat support
-- Ready to start on VPS/VDS or cloud
-- Dashboard* [still in progress]
+<h5> `finder` analyzer. </h5>
+Creates screenshots from json files of reports and groups them according to efficiency
 
 ### Business edition
 - Multiple tokens for easy client connection (signals for sale to you clients)
@@ -168,7 +117,7 @@ this.prevCandle // Equivalent to this.candles[1]
 
 </h5>
 
-__Description:__ Array of open positions [ExecutedOrder](#executedorder) in the opening order `this.orders[0]` - the first
+__Description:__ Array of open positions [ExecutedOrder](#executedorder) in the opening order `this.orders[0]` - the first one. Deals are added synchronously to the array, first an optimistic deal is created, indicating the processing process, as soon as a response comes from the server, the deal is replaced with the original one.
 
 __Example:__
 ```javascript
@@ -807,7 +756,8 @@ interface DebutOptions {
     fee ?: number; // Tax for the operation in fractions
     id ?: number; // configuration id
     sandbox ?: boolean; // Is sandbox mode active or real money trading
-    margin ?: boolean; // Is short trading allowed
+    margin?: boolean; // Switching to margin account in binance
+    instrumentType ?: 'SPOT' | 'FUTURES'; // Type of the traded instrument (for now only for binance), by default SPOT
     lotsMultiplier ?: number; // Lot multiplier, for example, if you need to make x2 or x3 purchases, by default 1
     equityLevel ?: number; // Sklko available from the total deposit for the current strategy
 }
@@ -871,6 +821,8 @@ enum OrderType {
 
 ```javascript
 interface ExecutedOrder {
+    // Unique client generated identifier
+    cid: number;
     // Selected broker for trading
     broker: string;
     // Deal type from OrderType
@@ -930,6 +882,13 @@ interface ExecutedOrder {
 }
 ```
 
+### `InstrumentType`
+Types of traded asset
+
+```javascript
+interface InstrumentType = 'FUTURES' | 'SPOT';
+```
+
 ### `Instrument`
 Trading instrument parameters.
 
@@ -945,5 +904,9 @@ interface Instrument {
     lot: number;
     // With what precision the lots are indicated, for example, value 6 = 0.000001
     lotPrecision: number;
+    // Instrument type (CFD, FUTURES, SPOT ...)
+    type: InstrumentType;
+    // Internal identifier of the Debut instrument
+    id: string;
 }
 ```
