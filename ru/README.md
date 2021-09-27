@@ -299,6 +299,11 @@ async onMajorCandle(candle: Candle, timeframe: TimeFrame) {
 
 `onTick(tick: Candle): Promise<void>`
 
+Получены новые данные по стакану:
+
+`onDepth(tick: Depth): Promise<void>`
+***Подписка на данные стакана активируется автоматически, при использовании***
+
 Свеча из старшего таймфрейма закрылась:
 ***Только для Enterprise версии***
 
@@ -612,6 +617,10 @@ export function pluginConstructor(): PluginInterface {
 
 Пришел новый тик по текущей свече. Все тики идут в этот обработчик. Также поддерживает блокировку события, если вернет `true`, тик не будет передан стратегии. Используется например для ограничений торговых сессий. Чтобы отключать стратегию от рынка виртуально в зависимости от времени или дня недели или фазы луны.
 
+*`[async onDepth]: (candle: Depth) => Promise<void>;`*
+
+Получены новые данные по стакану.
+
 *`[async onMajorCandle]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
 ***Только для Enterprise версии***
 Сформирована новая свеча для старшего таймфрейма, которы задал пользователь при вызове метода `this.useMajorCandle('1h');` в реализации стратегии. Плагины также самостоятельно могут вызывать подписку на использвоание старших фреймов, используя контекст плагина `this.debut.useMajorCandle` или `ctx.debut.useMajorCandle('1h');`
@@ -731,6 +740,27 @@ interface Candle {
     time: number;
 }
 ```
+
+### `DepthOrder`
+Данные сделки в стакане
+
+```javascript
+interface DepthOrder {
+    price: number;
+    qty: number;
+}
+```
+
+### `Depth`
+Данные стакана
+
+```javascript
+interface Depth {
+    bids: DepthOrder[];
+    asks: DepthOrder[];
+};
+```
+
 ### `TimeFrame`
 Унифицированный формат таймфрейма для работы стратегии, в списке только поддерживаемые форматы.
 

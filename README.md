@@ -294,6 +294,11 @@ A new tick has arrived from the websocket of the exchange or tester:
 
 `onTick (tick: Candle): Promise <void>`
 
+New data on the glass has been received:
+
+`onDepth (tick: Depth): Promise <void>`
+***Subscription to Depth of Market data is activated automatically when using onDepth***
+
 A candlestick from a higher timeframe closed:
 *** Only for Enterprise version ***
 
@@ -607,6 +612,10 @@ The current candle has closed and the `onCandle` hooks have worked, you can do s
 
 A new tick has arrived for the current candle. All ticks go to this handler. It also supports blocking the event, if it returns `true`, the tick will not be passed to the strategy. Used for example to limit trading sessions. To disconnect the strategy from the market virtually depending on the time or day of the week or the phase of the moon.
 
+*`[async onDepth]: (candle: Depth) => Promise <void>;`*
+
+New data on the glass has been received.
+
 *`[async onMajorCandle]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
 ***Only for Enterprise version***
 A new candlestick has been formed for the higher timeframe, which was specified by the user when calling the `this.useMajorCandle ('1h');` method in the strategy implementation. Plugins can also independently invoke a subscription to use major frames using the plugin context `this.debut.useMajorCandle` or `ctx.debut.useMajorCandle ('1h'); `
@@ -726,6 +735,27 @@ interface Candle {
     time: number;
 }
 ```
+
+### `DepthOrder`
+Order data in the order book
+
+```javascript
+interface DepthOrder {
+     price: number;
+     qty: number;
+}
+```
+
+### `Depth`
+Order-book dataset
+
+```javascript
+interface Depth {
+     bids: DepthOrder [];
+     asks: DepthOrder [];
+};
+```
+
 ### `TimeFrame`
 A unified timeframe format for the strategy, the list contains only supported formats.
 
