@@ -13,6 +13,7 @@ Debut is based on the architecture of the core and add-on plugins that allow you
     <a href="https://www.patreon.com/bePatron?u=57560983"><img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/buy2.png" alt="Request implementation" width="64"></a>
 </p>
 
+## Strategy results and examples
 The project has two starting trading strategies "For example" how to work with the system.
 
 An example of the strategy [SpikesG](https://github.com/debut-js/Strategies/tree/master/src/strategies/spikes-grid) in 200 days. Optimization was carried out in 180 days and 20 days of free work on untrained data.
