@@ -43,8 +43,6 @@ Allows to emulate ticks in a test environment with maximum accuracy, by creating
 <h5> Additional callbacks in plugins </h5>
 Additional callbacks are used in the premium version of Debut to expand the functionality of creating plugins. More details can be found in the plugins description section.
 
-The Enterprise version is a ready-made set of tools for the "big guys", for those who trade in services or professionally create strategies. All here! And all this is ready to work for you and increase the speed of your development.
-
 <h5> Synthetic tick emulation </h5>
 Additional division of large ticks (for example, if there was a large price change in 1 minute) into components moving chaotically in the direction of price change, thus, emulating a real fast market movement in the right direction, providing a tick size of no more than 0.75%
 
