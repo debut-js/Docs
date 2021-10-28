@@ -52,14 +52,6 @@ Thanks to the aggregation of candles, Alpaca supports timeframes artificially, d
 <h5> `finder` analyzer. </h5>
 Creates screenshots from json files of reports and groups them according to efficiency
 
-### Business edition
-- Multiple tokens for easy client connection (signals for sale to you clients)
-- Legal use Debut for business
-
-<br/>
-
-**Find out the price by sending a request to [sales@debutjs.io](mailto:sales@debutjs.io)**
-
 **Disclaimer**
 
 - Debut does not guarantee 100% probability of making a profit. Use it at your own peril and risk, relying on your own professionalism.
