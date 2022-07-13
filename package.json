@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "start": "docsify start . -c ssr.config.js",
+    "start": "docsify serve",
     "deploy": "now -p"
   },
   "files": [
@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/debut-js/Docs#readme",
   "dependencies": {
-    "docsify": "^4.12.1"
+    "docsify": "^4.12.2"
   },
   "devDependencies": {
     "docsify-cli": "^4.4.3",
