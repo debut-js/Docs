@@ -5,18 +5,20 @@ Debut is an ecosystem for developing and launching trading strategies. An analog
 Debut is based on the architecture of the core and add-on plugins that allow you to flexibly customize any solution. The main goal of the entire Debut ecosystem is to simplify the process of creating and launching working trading robots on various exchanges.
 
 ## Features
-- Getting real tick data from exchanges
+
+<p align="center"><img src="./assets/preview.gif" width="800"></p>
+
+- Multiple exchanges API
 - Backtesting with historical data
 - Visualization of backtesting results
-- View backtesting in real time
-- Strategy optimisation (genetic algorithms)
+- View backtesting live preview
+- Strategy optimisation (genetic algorithms, multi thread)
 - Stretegy overfitting control (Walk-Forward)
-- Simple working with data using callbacks e.g. [onCandle](#onCandle), [onTick](#onTick), [onDepth](#onDepth)
+- Cross timeframe candles access
+- Simple working with data using callbacks e.g. [onCandle](#onCandle), [onTick](#onTick), [onDepth](#onDepth) ...
 - Written in TypeScript (JavaScript), may be executed in browser
-- Easy Extensible with plugins
+- Customizable with plugins
 - Can use community edition for free with limitations
-
-## Debut is charged to create trading strategies, really!
 
 ## Brokers supported
 <p>
