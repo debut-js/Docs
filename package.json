@@ -33,7 +33,7 @@
   },
   "docsify": {
     "config": {
-      "basePath": "http://debutjs.io/",
+      "basePath": "https://debutjs.io/",
       "loadSidebar": true,
       "loadNavbar": true,
       "coverpage": true,
