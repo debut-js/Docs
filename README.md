@@ -94,7 +94,7 @@ Creates screenshots from json files of reports and groups them according to effi
 __Description:__ Array of candles [Candle](#candle) (last 10), `this.candles[0]` - current not closed candle, `this.candles[1]` - last known closed candle.
 
 __Example:__
-```javascript
+```typescript
 const currentCandle = this.candles[0];
 const prevCandle = this.candles[1];
 
@@ -112,7 +112,7 @@ this.prevCandle // Equivalent to this.candles[1]
 __Description:__ Array of open positions [ExecutedOrder](#executedorder) in the opening order `this.orders[0]` - the first one. Deals are added synchronously to the array, first an optimistic deal is created, indicating the processing process, as soon as a response comes from the server, the deal is replaced with the original one.
 
 __Example:__
-```javascript
+```typescript
 const currentOrder = this.orders[0];
 ```
 
@@ -125,7 +125,7 @@ const currentOrder = this.orders[0];
 __Description:__ Public methods of plugins. The object `this.plugins` is generated automatically when registering plugins. As a rule: `this.plugins[name] = PluginAPI`, where name is the unique name of the plugin.
 
 __Example:__
-```javascript
+```typescript
 this.plugins.report.disableProfitPlot(); // call the plugin control method report
 ```
 
@@ -140,7 +140,7 @@ this.plugins.report.disableProfitPlot(); // call the plugin control method repor
 __Description:__ Register plugins. It can be called at any convenient moment, but it is recommended to register all the necessary plugins at the stage of creation in the strategy constructor or in the environment constructor in the meta file
 
 __Example:__
-```javascript
+```typescript
 this.registerPlugins([debugPlugin()]);
 ```
 
@@ -153,7 +153,7 @@ this.registerPlugins([debugPlugin()]);
 __Description:__ When called, a subscription to ticks for the current transport (Binance / Tinkfff / Tester) will be created. In production, it creates a web socket connection to the exchange and receives updates by the ticker from the settings.
 
 __Example:__
-```javascript
+```typescript
 this.start();
 ```
 
@@ -166,7 +166,7 @@ this.start();
 __Description:__ Returns the name of the strategy constructor, in fact the name of the strategy. For various needs, for example, for logging, so that it is clear by what strategy the event occurred.
 
 __Example:__
-```javascript
+```typescript
 const name = this.getName();
 console.log(name, this.orders);
 ```
@@ -180,7 +180,7 @@ console.log(name, this.orders);
 __Description:__ Sequentially closes all open positions from the `this.orders` array, returns the [ExecutedOrders](#executedorder) array of closed deals
 
 __Example:__
-```javascript
+```typescript
 await this.closeAll();
 ```
 
@@ -193,7 +193,7 @@ await this.closeAll();
 __Description:__ Creates a trade on the market with the direction [OrderType](#ordertype)
 
 __Example:__
-```javascript
+```typescript
 const executedOrder = await this.createOrder(OrderType.BUY);
 ```
 
@@ -206,7 +206,7 @@ const executedOrder = await this.createOrder(OrderType.BUY);
 __Description:__ Closes the specified application. Accepts a previously executed order as input [ExecutedOrder](#executedorder)
 
 __Example:__
-```javascript
+```typescript
 const openedOrder = this.orders[0];
 const executedOrder = await this.closeOrder(openedOrder);
 ```
@@ -220,7 +220,7 @@ const executedOrder = await this.closeOrder(openedOrder);
 __Description:__ Submitting historical data to the bot as a pre-start stage. It is necessary for the bot to enter the market with these indicators and possibly open trades in order to make a smooth transition to real trades. All trades opened in the training mode will be closed safely bypassing the real balance of the broker.
 
 __Example:__
-```javascript
+```typescript
 const bot = await meta.create(getTransport(config), config, WorkingEnv.production);
 await bot.learn(60);
 await bot.start();
@@ -238,7 +238,7 @@ __Description:__ Creation of an aggregator of candles, which will accumulate dat
 
 __Example:__
 
-```javascript
+```typescript
 /**
  * Debut trading strategy builder
  */
@@ -545,7 +545,7 @@ Some types of hooks allow you to stop events, some have a passive status without
 
 The whole plugin is a function that returns an object containing the `name` field - this is the name of the plugin, it must be unique within the plugins used,` api` are external plugin methods for calls inside the strategy, well, the rest of the object fields are a set of hooks.
 
-```javascript
+```typescript
 export function pluginConstructor (): PluginInterface {
     const variable = 23;
     return {
@@ -621,7 +621,7 @@ The strategy itself is available as `this.debut` and you have access to all publ
 
 
 Context interface
-```javascript
+```typescript
 interface PluginCtx {
     findPlugin <T extends PluginInterface> (name: string): T;
     debut: DebutCore;
@@ -632,7 +632,7 @@ interface PluginCtx {
 #### Simple plugin
 Let's consider an example of one of the simplest plugins that adds the profit to the existing balance of the strategy.
 
-```javascript
+```typescript
 import {PluginInterface} from '@debut/types';
 import {orders} from '@debut/plugin-utils';
 
@@ -667,7 +667,7 @@ export function reinvestPlugin (): PluginInterface {
 #### Plugin step by step
 
 **Create a generic plugin type and export it**
-```javascript
+```typescript
 export interface DynamicTakesPlugin extends PluginInterface {
     name: 'dynamicTakes';
     api: Methods;
@@ -675,7 +675,7 @@ export interface DynamicTakesPlugin extends PluginInterface {
 ```
 
 **Export the type with plugin parameters to connect it to debut.opts**
-```javascript
+```typescript
 export type DynamicTakesPluginOptions = {
     trailing ?: boolean;
     ignoreTicks ?: boolean;
@@ -684,7 +684,7 @@ export type DynamicTakesPluginOptions = {
 ```
 
 **Separately declare the interface of public methods of the plugin (it is private, there is no export)**
-```javascript
+```typescript
 interface Methods {
     setForOrder (orderId: string, takePrice: number, stopPrice: number): void;
     getTakes (orderId: string): OrderTakes;
@@ -692,7 +692,7 @@ interface Methods {
 ```
 
 **Exporting the plugin API for calling via `this.plugins.dynamicTakes.setForOrder ()` from the strategy**
-```javascript
+```typescript
 export interface DynamicTakesPluginAPI {
     dynamicTakes: Methods;
 }
@@ -716,7 +716,7 @@ npm i --save-dev @debut/types
 
 Market data presentation form. It is used both for ticks and for formed candles. Unified standard, independent of the choice of the trading platform.
 
-```javascript
+```typescript
 interface Candle {
     o: number;
     c: number;
@@ -730,7 +730,7 @@ interface Candle {
 ### `DepthOrder`
 Order data in the order book
 
-```javascript
+```typescript
 interface DepthOrder {
      price: number;
      qty: number;
@@ -740,7 +740,7 @@ interface DepthOrder {
 ### `Depth`
 Order-book dataset
 
-```javascript
+```typescript
 interface Depth {
      bids: DepthOrder [];
      asks: DepthOrder [];
@@ -750,13 +750,13 @@ interface Depth {
 ### `TimeFrame`
 A unified timeframe format for the strategy, the list contains only supported formats.
 
-```javascript
+```typescript
 type TimeFrame = '1min' | '3min' | '5min' | '15min' | '30min' | '1h' | '2h' | '4h' | 'day' | 'week' | 'month';
 ```
 ### `WorkingEnv`
 Runtime environment variables. It is necessary to separate all stages of production. Tk for different environments requires a different configuration of plugins and modes of operation. Tunable environment variables allow you to initialize only the mechanisms required for a given environment.
 
-```javascript
+```typescript
 enum WorkingEnv {
     'genetic', // strategy works in genetic optimization mode
     'tester', // the strategy works in backtesting mode
@@ -768,7 +768,7 @@ enum WorkingEnv {
 
 Basic options for any trading strategy.
 
-```javascript
+```typescript
 interface DebutOptions {
     broker: 'tinkoff' | 'binance'; // Broker type
     ticker: string; // Ticker
@@ -788,7 +788,7 @@ interface DebutOptions {
 ### `DebutMeta`
 Base class for defining strategy meta information. Used in all `meta.ts` files containing meta data.
 
-```javascript
+```typescript
 interface DebutMeta {
     parameters: GeneticSchema; // Strategy optimization parameters
     score: (bot: DebutCore) => number; // Method for calculating efficiency in genetic optimization
@@ -803,7 +803,7 @@ interface DebutMeta {
 An object consisting of [Descriptors](#schemadescriptor) fields, describing the ranges of the ranking of the fields and the data types in them. Used to generate random values, during mutation in a genetic algorithm, or initially to create the first random dataset.
 
 Example:
-```javascript
+```typescript
 const parameters: GeneticSchema <SpikesGOptions> = {
     stopLoss: {min: 10, max: 30}, // float: numbers from 10 to 30 with any fractional part
     usePeaks: {bool: true}, // boolean: true or false
@@ -815,7 +815,7 @@ const parameters: GeneticSchema <SpikesGOptions> = {
 ### `SchemaDescriptor`
 A data ranking format for randomly generating values. The `number`,` float` and `boolean` types are supported.
 
-```javascript
+```typescript
 type SchemaDescriptor = SchemaNumberDescriptor | SchemaBoolDescriptor;
 
 type SchemaNumberDescriptor = {
@@ -833,7 +833,7 @@ type SchemaBoolDescriptor = {
 ### `OrderType`
 Supported deal types. * Currently only market trades are supported *
 
-```javascript
+```typescript
 enum OrderType {
     'BUY' = 'BUY', // Buy by market
     'SELL' = 'SELL ', // Sell by market or short, in case of no positions and margin trading is allowed
@@ -841,7 +841,7 @@ enum OrderType {
 ```
 ### `ExecutedOrder`
 
-```javascript
+```typescript
 interface ExecutedOrder {
     // Unique client generated identifier
     cid: number;
@@ -907,14 +907,14 @@ interface ExecutedOrder {
 ### `InstrumentType`
 Types of traded asset
 
-```javascript
+```typescript
 interface InstrumentType = 'FUTURES' | 'SPOT';
 ```
 
 ### `Instrument`
 Trading instrument parameters.
 
-```javascript
+```typescript
 interface Instrument {
     // Identifier of the asset on the exchange, if supported by the exchange
     figi ?: string;
