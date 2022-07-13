@@ -1,17 +1,31 @@
-# Debut
-<b><a href="/ru">Switch to Russian</a></b>
+# Debut - Trading Framework
 
 Debut is an ecosystem for developing and launching trading strategies. An analogue of the well-known `ZenBot`, but with much more flexible possibilities for constructing strategies. All you need to do is come up with and describe the entry points to the market and connect the necessary [plugins](https://github.com/debut-js/Plugins) to work. Everything else is a matter of technology: **genetic algorithms** - will help you choose the most effective parameters for the strategy (period, stops, and others), **ticker selection module** - will help you find an asset suitable for the strategy (token or share), on which it will work best.
 
 Debut is based on the architecture of the core and add-on plugins that allow you to flexibly customize any solution. The main goal of the entire Debut ecosystem is to simplify the process of creating and launching working trading robots on various exchanges.
 
-## Available for
+## Features
+- Getting real tick data from exchanges
+- Backtesting with historical data
+- Visualization of backtesting results
+- View backtesting in real time
+- Strategy optimisation (genetic algorithms)
+- Stretegy overfitting control (Walk-Forward)
+- Simple working with data using callbacks e.g. [onCandle](#onCandle), [onTick](#onTick), [onDepth](#onDepth)
+- Written in TypeScript (JavaScript), may be executed in browser
+- Easy Extensible with plugins
+- Can use community edition for free with limitations
+
+## Debut is charged to create trading strategies, really!
+
+## Brokers supported
 <p>
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/alpaca.png" alt="Alpaca API" width="64">
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/binance.png" alt="Binance API" width="64">
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/tinkoff.png" alt="Tinkoff API (Russia only)" width="64">
-    <a href="https://www.patreon.com/bePatron?u=57560983"><img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/buy2.png" alt="Request implementation" width="64"></a>
 </p>
+
+Didn't see your broker? You can [donate](https://www.patreon.com/bePatron?u=57560983) for support. 
 
 ## Strategy results and examples
 The project has two starting trading strategies "For example" how to work with the system.
@@ -61,24 +75,18 @@ Creates screenshots from json files of reports and groups them according to effi
 
 ## Live orders streaming
 
-<table>
-<thead>
-    <tr>
-        <th> Crypto Currency </th>
-        <th> Stocks </th>
-    </tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<iframe id="preview" style="height:500px;width:500px;" src="https://xn--r1a.website/s/debutjs"></iframe>
-</td>
-<td>
-<iframe id="preview" style="height:500px;width:500px;" src="https://xn--r1a.website/s/debutjs2"></iframe>
-</td>
-</tr>
-</tbody>
-</table>
+We broadcast our experiments on telegram channels, where you can see our orders on cryptocurrencies and stocks.
+
+[![Telegram crypto trading orders stream](https://badgen.net/badge/tg/crypt:stream/blue?icon=telegram)](https://t.me/debutjs)
+[![Telegram stocks trading orders stream](https://badgen.net/badge/tg/stocks:stream/cyan?icon=telegram)](https://t.me/debutjs2)
+
+Order stream schema
+
+![](assets/order_detail.png)
+
+
+
+
 
 <hr/>
 
