@@ -10,8 +10,8 @@ Debut is based on the architecture of the core and add-on plugins that allow you
 
 - Multiple exchanges API
 - Backtesting with historical data
-- Visualization of backtesting results
-- View backtesting live preview
+- Backtesting results visualization
+- Backtesting live preview
 - Strategy optimisation (genetic algorithms, multi thread)
 - Stretegy overfitting control (Walk-Forward)
 - Cross timeframe candles access
@@ -28,24 +28,11 @@ Debut is based on the architecture of the core and add-on plugins that allow you
 </p>
 
 Didn't see your broker? You can [donate](https://www.patreon.com/bePatron?u=57560983) for support. 
-
-## Strategy results and examples
-The project has two starting trading strategies "For example" how to work with the system.
-
-An example of the strategy [SpikesG](https://github.com/debut-js/Strategies/tree/master/src/strategies/spikes-grid) in 200 days. Optimization was carried out in 180 days and 20 days of free work on untrained data.
-An initial deposit of *$500* was used
-
-<p align="center"><img src="https://github.com/debut-js/Strategies/raw/master/src/strategies/spikes-grid/img/BATUSDT.png" width="800"></p>
-
-Strategy statistics were collected based on the [Stats plugin](https://github.com/debut-js/Plugins/tree/master/packages/stats), follow the link to learn more about the meaning of some statistics.
-
-Visualization is done using the [Report plugin](https://github.com/debut-js/Plugins/tree/master/packages/report).
-
 ## Community edition
 We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
-## Enterprise edition 
-**(Available by [subscription](https://www.patreon.com/bePatron?u=57560983) for $15/mo)**
+## Enterprise edition
+**(Available by [subscription](https://www.patreon.com/bePatron?u=57560983) for $20/mo)**
 
 ### What is inside?
 
@@ -56,24 +43,14 @@ It allows you to create timeframes supported by `Debut` even if they are not sup
 <h5> Advanced tick emulation </h5>
 Allows to emulate ticks in a test environment with maximum accuracy, by creating price changes based on `1min` ticks, split into open, high, low, close. To collect timeframes, the aggregation module into candles of any time interval is used.
 
-
 <h5> Additional callbacks in plugins </h5>
 Additional callbacks are used in the premium version of Debut to expand the functionality of creating plugins. More details can be found in the plugins description section.
-
-<h5> Synthetic tick emulation </h5>
-Additional division of large ticks (for example, if there was a large price change in 1 minute) into components moving chaotically in the direction of price change, thus, emulating a real fast market movement in the right direction, providing a tick size of no more than 0.75%
 
 <h5> Alpaca </b> supports `5min`,` 15min` and other debut time frames </h5>
 Thanks to the aggregation of candles, Alpaca supports timeframes artificially, despite the lack of support on the server.
 
 <h5> `finder` analyzer. </h5>
 Creates screenshots from json files of reports and groups them according to efficiency
-
-**Disclaimer**
-
-- Debut does not guarantee 100% probability of making a profit. Use it at your own peril and risk, relying on your own professionalism.
-- Cryptocurrency is a global experiment, so Debut is also. That is, both can fail at any time.
-
 
 ## Live orders streaming
 
@@ -87,37 +64,54 @@ Order stream schema
 ![](assets/order_detail.png)
 
 
+**Disclaimer**
 
-
-
-<hr/>
+- Debut does not guarantee 100% probability of making a profit. Use it at your own peril and risk, relying on your own professionalism.
+- Cryptocurrency is a global experiment, so Debut is also. That is, both can fail at any time.
 
 ## Core Debut
 ### Runtime Data
 
-<h5>
+__Property__:
 
-*`this.candles[]`*
-
-</h5>
+```typescript
+this.candles[]
+```
 
 __Description:__ Array of candles [Candle](#candle) (last 10), `this.candles[0]` - current not closed candle, `this.candles[1]` - last known closed candle.
 
 __Example:__
 ```typescript
-const currentCandle = this.candles[0];
-const prevCandle = this.candles[1];
+import { Debut } from '@debut/community-core';
+import { Candle } from '@debut/types';
+// Basic strategy runtime
+export class MyStrategy extends Debut {
 
-// Quick access to the last two candles
-this.currentCandle // Equivalent to this.candles[0]
-this.prevCandle // Equivalent to this.candles[1]
+    async onCandle(candle: Candle) {
+        // Getting current candle (non closed candle in production mode)
+        const currentCandle = this.candles[0];
+        // Getting previous candle
+        const prevCandle = this.candles[1];
+
+        // Quick access to the last two candles using aliases
+        this.currentCandle // Alias to this.candles[0]
+        this.prevCandle // Alias to this.candles[1]
+
+        // For current iteration, after method onCandle executed candle will moved to next position
+        // And then will be available on this.candles[1]
+        candle === this.candles[0] // true
+    }
+}
+
 ```
 
-<h5>
+<hr/>
 
-*`this.orders[]`*
+__Property:__
 
-</h5>
+```typescript
+this.orders[]
+```
 
 __Description:__ Array of open positions [ExecutedOrder](#executedorder) in the opening order `this.orders[0]` - the first one. Deals are added synchronously to the array, first an optimistic deal is created, indicating the processing process, as soon as a response comes from the server, the deal is replaced with the original one.
 
@@ -126,39 +120,127 @@ __Example:__
 const currentOrder = this.orders[0];
 ```
 
-<h5>
+<hr/>
 
-*`this.plugins`*
+__Property:__
 
-</h5>
+```typescript
+this.ordersCount
+```
 
-__Description:__ Public methods of plugins. The object `this.plugins` is generated automatically when registering plugins. As a rule: `this.plugins[name] = PluginAPI`, where name is the unique name of the plugin.
+__Description:__ Quick access to count of opened positions
 
 __Example:__
 ```typescript
-this.plugins.report.disableProfitPlot(); // call the plugin control method report
+import { Debut } from '@debut/community-core';
+import { Candle, OrderType } from '@debut/types';
+
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+
+    async onCandle(candle: Candle) {
+        // Slow clount access
+        const count = this.orders.length;
+
+        // Fast (recommended) alias
+        const count = this.ordersCount;
+
+        // If no orders, lets open
+        if (!count) {
+            await this.createOrder(OrderType.BUY);
+        }
+    }
+}
+```
+
+<hr/>
+
+__Property__:
+
+```typescript
+this.plugins
+```
+
+__Description:__ Public methods of plugins collection. The property `this.plugins` is generated automatically after [registering plugins](#public-methods). As a rule: `this.plugins[name] = PluginAPI`, where name is the unique name of the plugin.
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { Candle, OrderType, BaseTransport } from '@debut/types';
+import { dynamicTakesPlugin, DynamicTakesPluginAPI, DynamicTakesPluginOptions } from '@debut/plugin-dynamic-takes';
+
+// Basic strategy configuration
+export interface MyStrategyOptions extends DebutOptions, DynamicTakesPluginOptions {}
+
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+    // Declare strategy configuration type
+    declare opts: MyStrategyOptions;
+    // Declare included plugin API type
+    declare plugins: DynamicTakesPluginAPI;
+
+     constructor(transport: BaseTransport, opts: MyStrategyOptions) {
+        super(transport, opts);
+
+        this.registerPlugins([ dynamicTakesPlugin(this.opts) ]);
+    }
+
+    async onCandle(candle: Candle) {
+        // Create order
+       const order = await this.createOrder(OrderType.BUY);
+
+        let take = 0;
+        let stop = 0;
+
+        if (target === OrderType.BUY) {
+            take = c + (1 + 0.5);
+            stop = c * (1 - 0.1);
+        } else {
+            take = c * (1 - 0.5);
+            stop = c * (1 + 0.1);
+        }
+
+        // Use access to plugin for set up take profit and stop loss
+        this.plugins.dynamicTakes.setForOrder(order.cid, take, stop);
+    }
+}
+
 ```
 
 ### Public Methods
 
-<h5>
+__Method__
 
-*`this.registerPlugins(PluginInterface[])`*
-
-</h5>
+```typescript
+this.registerPlugins(plugins: PluginInterface[]);
+```
 
 __Description:__ Register plugins. It can be called at any convenient moment, but it is recommended to register all the necessary plugins at the stage of creation in the strategy constructor or in the environment constructor in the meta file
 
 __Example:__
 ```typescript
-this.registerPlugins([debugPlugin()]);
+import { Debut } from '@debut/community-core';
+import { DebutOptions, BaseTransport } from '@debut/types';
+import { gridPlugin, GridPluginOptions, Grid, GridPluginAPI } from '@debut/plugin-grid';
+
+export interface MyStrategyOptions extends DebutOptions, GridPluginOptions {}
+
+export class MyStrategy extends Debut {
+    declare opts: MyStrategyOptions;
+    declare plugins: GridPluginAPI;
+
+    constructor(transport: BaseTransport, opts: MyStrategyOptions) {
+        // Register grid plugin
+        this.registerPlugins(gridPlugin(opts));
+    }
+}
 ```
 
-<h5>
+<span class="h3">
 
 *`this.start()`*
 
-</h5>
+</span>
 
 __Description:__ When called, a subscription to ticks for the current transport (Binance / Tinkfff / Tester) will be created. In production, it creates a web socket connection to the exchange and receives updates by the ticker from the settings.
 
@@ -167,11 +249,11 @@ __Example:__
 this.start();
 ```
 
-<h5>
+<span class="h3">
 
 *`this.getName()`*
 
-</h5>
+</span>
 
 __Description:__ Returns the name of the strategy constructor, in fact the name of the strategy. For various needs, for example, for logging, so that it is clear by what strategy the event occurred.
 
@@ -181,11 +263,11 @@ const name = this.getName();
 console.log(name, this.orders);
 ```
 
-<h5>
+<span class="h3">
 
 *`this.closeAll(): Promise<ExecutedOrder[]>;`*
 
-</h5>
+</span>
 
 __Description:__ Sequentially closes all open positions from the `this.orders` array, returns the [ExecutedOrders](#executedorder) array of closed deals
 
@@ -194,11 +276,12 @@ __Example:__
 await this.closeAll();
 ```
 
-<h5>
+__Method:__
 
-*`this.createOrder(operation: OrderType): Promise<ExecutedOrder>;`*
+```typescript
+this.createOrder(operation: OrderType): Promise<ExecutedOrder>;
+```
 
-</h5>
 
 __Description:__ Creates a trade on the market with the direction [OrderType](#ordertype)
 
@@ -207,11 +290,11 @@ __Example:__
 const executedOrder = await this.createOrder(OrderType.BUY);
 ```
 
-<h5>
+<span class="h3">
 
 *`this.closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;`*
 
-</h5>
+</span>
 
 __Description:__ Closes the specified application. Accepts a previously executed order as input [ExecutedOrder](#executedorder)
 
@@ -221,11 +304,11 @@ const openedOrder = this.orders[0];
 const executedOrder = await this.closeOrder(openedOrder);
 ```
 
-<h5>
+<span class="h3">
 
 *`this.learn(days: number): Promise<void>;`*
 
-</h5>
+</span>
 
 __Description:__ Submitting historical data to the bot as a pre-start stage. It is necessary for the bot to enter the market with these indicators and possibly open trades in order to make a smooth transition to real trades. All trades opened in the training mode will be closed safely bypassing the real balance of the broker.
 
@@ -236,11 +319,11 @@ await bot.learn(60);
 await bot.start();
 ```
 
-<h5>
+<span class="h3">
 
 * `this.useMajorCandle (timeframe: TimeFrame): void;` *
 
-</h5>
+</span>
 
 ***Only for Enterprise version***
 
@@ -324,51 +407,51 @@ npm run genetic -- [...args]
 ```
 <h4> Run options </h4>
 
-<h5>
+<span class="h3">
 
 *`--bot=...`*
 
-</h5>
+</span>
 
 __Description:__ Name of the trading robot from the file `schema.json`
 
 __Example:__ `--bot=SpikesG`
 
-<h5>
+<span class="h3">
 
 *`--ticker=...`*
 
-</h5>
+</span>
 
 __Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
 
 __Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
-<h5>
+<span class="h3">
 
 *`--amount=...`*
 
-</h5>
+</span>
 
 __Description:__ Initial amount for trading (from it is [equityLevel](#debutoptions)) `schema.json`
 
 __Example:__ `--amount=500`
 
-<h5>
+<span class="h3">
 
 *`--days=...`*
 
-</h5>
+</span>
 
 __Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
 
 __Example:__ `--days=200`
 
-<h5>
+<span class="h3">
 
 *`--gap=...`*
 
-</h5>
+</span>
 
 __Description:__ How many days to deviate from today before starting the history request
 
@@ -376,11 +459,11 @@ __Recommendations:__ Used to create a non-training interval. If we passed the `-
 
 __Example:__ `--gap=20`
 
-<h5>
+<span class="h3">
 
 *`--pop=...`*
 
-</h5>
+</span>
 
 __Description:__ Population size in the genetic algorithm (population is the number of strategies created)
 
@@ -388,11 +471,11 @@ __Recommendations:__ It is recommended to set the population size in the range f
 
 __Example:__ `--pop=500`
 
-<h5>
+<span class="h3">
 
 *`--gen=...`*
 
-</h5>
+</span>
 
 __Description:__ Number of generations in optimization
 
@@ -400,32 +483,32 @@ __Recommendations:__ Strength of genetics in generations, recommended values are
 
 __Example:__ `--gen=20`
 
-<h5>
+<span class="h3">
 
 *`--ohlc`*
 
-</h5>
+</span>
 
 __Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
 
 __Example:__ `--ohlc`
 
-<h5>
+<span class="h3">
 
 *`--best=...`*
 
-</h5>
+</span>
 
 __Description:__ How many best results to output to the console at the end of optimization, by default `30`
 
 __Example:__ `--best=20`
 
 
-<h5>
+<span class="h3">
 
 *`--log`*
 
-</h5>
+</span>
 
 __Description:__ Whether to output intermediate generation data to the console
 
@@ -460,11 +543,11 @@ npm run finder -- [...args]
 
 The main parameters are the same as for [genetic](#Single-genetic), with one difference
 
-<h5>
+<span class="h3">
 
 *`--crypt`*
 
-</h5>
+</span>
 
 __Description:__ Whether to use the file `crypt.json` for work (the default is` stocks.json` with a list of stocks)
 
@@ -491,41 +574,41 @@ npm run testing - [... args]
 ```
 
 <h4> Run Options </h4>
-<h5>
+<span class="h3">
 
 *`--bot=...`*
 
-</h5>
+</span>
 
 __Description:__ Name of the trading robot from the file `schema.json`
 
 __Example:__ `--bot=SpikesG`
 
-<h5>
+<span class="h3">
 
 *`--ticker=...`*
 
-</h5>
+</span>
 
 __Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
 
 __Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
-<h5>
+<span class="h3">
 
 *`--days=...`*
 
-</h5>
+</span>
 
 __Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
 
 __Example:__ `--days=200`
 
-<h5>
+<span class="h3">
 
 *`--gap=...`*
 
-</h5>
+</span>
 
 __Description:__ How many days to deviate from today before starting the history request
 
@@ -533,17 +616,17 @@ __Recommendations:__ Used to create a non-training interval. If we passed the `-
 
 __Example:__ `--gap=20`
 
-<h5>
+<span class="h3">
 
 *`--ohlc`*
 
-</h5>
+</span>
 
 __Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
 
 __Example:__ `--ohlc`
 
-<h5>
+<span class="h3">
 
 *Run example:*
 ```bash
