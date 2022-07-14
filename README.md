@@ -17,7 +17,7 @@ Debut is based on the architecture of the core and add-on plugins that allow you
 - Cross timeframe candles access
 - Simple working with data using callbacks e.g. [onCandle](#onCandle), [onTick](#onTick), [onDepth](#onDepth) ...
 - Written in TypeScript (JavaScript), may be executed in browser
-- Customizable with plugins
+- Customizable with [plugins](https://github.com/debut-js/Plugins)
 - Can use community edition for free with limitations
 
 ## Brokers supported
@@ -69,7 +69,312 @@ Order stream schema
 - Debut does not guarantee 100% probability of making a profit. Use it at your own peril and risk, relying on your own professionalism.
 - Cryptocurrency is a global experiment, so Debut is also. That is, both can fail at any time.
 
-## Core Debut
+## Documentation
+
+### Quick Start Guide
+
+__Step 1: Install__
+
+Fork the [repository](https://github.com/debut-js/Strategies/) and install dependencies by `npm i`
+
+__Step 2: Get broker API keys__
+Follow broker instruction and get API access token. The access level is required only for trading, be careful when choosing access settings.
+
+Broker API guides: [Tinkoff instructions](https://tinkoff.github.io/investAPI/token/) or
+[Binance instructions](https://www.binance.com/en/support/faq/360002502072)
+
+Then create tokens file `.tokens.json` in root directory via copy and rename file `.token.example.json`. Just replace placeholders by you broker API access tokens and remove unused.
+
+.tokens.exapmle.json listing:
+
+```json
+{
+    "binance": "YOU_BINANCE_TOKEN",
+    "binanceSecret": "YOU_BINANCE_SECRET",
+    "tinkoff": "YOU_TINKOFF_TOKEN",
+    "tinkoffAccountId": "YOU_TINKOFF_ACCOUNT",
+    "alpacaKey": "YOU_ALPACA_KEY",
+    "alpacaSecret": "YOU_ALPACA_SECRET"
+}
+```
+
+__Step 3: Create strategy__
+
+Execute command `npm run create` in root project directory and enter name of strategy. This command creates empty strategy file structure with next files:
+* `src/strategies/{name}/bot.ts` - Main strategy file for strategy logic
+* `src/strategies/{name}/cfgs.ts` - Store for strategy configuration objects
+* `src/strategies/{name}/meta.ts` - Meta information for creating, optimising, backtesting and executing
+
+Also file `schema.json` will be modified with strategy path description
+
+__Step 4: Describe strategy__
+
+In `bot.ts` file you can start working with strategy runtime. `MyStrategy` class for working with anything around you own trading strategy, this class extended from core `Debut` which provided runtime methods and data.
+
+
+```typescript
+// bot.ts file example
+import { Debut } from '@debut/community-core';
+
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+    // this - is strategy runtime for working with broker and runtime data or methods
+}
+```
+
+__Step 5: Configure strategy__
+Before launching, you need to add a strategy configuration setting for the selected instrument and broker.
+
+__Step 6: Backtesting__
+
+Use historical simulation to evaluate the trading performance of your strategy. Backtesting can be started with the command:
+
+```bash
+npm run compile && npm run testing -- --ticker=TSLA --bot=MyStrategy --days=200 --olhc
+```
+
+For results visualisation use [Report Plugin](https://github.com/debut-js/Plugins/tree/master/packages/report)
+See detailed command descriptions in [strategy tester docs](#strategy-tester)
+
+<hr/>
+
+### Runtime public methods
+
+__Method:__
+
+```typescript
+this.registerPlugins(plugins: PluginInterface[]);
+```
+
+__Description:__ Register plugins. It can be called at any convenient moment, but it is recommended to register all the necessary plugins at the stage of creation in the strategy constructor or in the environment constructor in the meta file
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { DebutOptions, BaseTransport } from '@debut/types';
+import { gridPlugin, GridPluginOptions, Grid, GridPluginAPI } from '@debut/plugin-grid';
+
+export interface MyStrategyOptions extends DebutOptions, GridPluginOptions {}
+
+export class MyStrategy extends Debut {
+    declare opts: MyStrategyOptions;
+    declare plugins: GridPluginAPI;
+
+    constructor(transport: BaseTransport, opts: MyStrategyOptions) {
+        super(transport, opts);
+
+        // Register grid plugin
+        this.registerPlugins(gridPlugin(opts));
+    }
+}
+```
+
+<hr/>
+
+__Method:__
+```typescript
+this.start();
+```
+
+__Description:__ When called, a subscription to ticks for the current transport (Binance / Tinkfff / Tester) will be created. In production, it creates a web socket connection to the exchange and receives updates by the ticker from the settings.
+
+__Example:__
+```typescript
+    // ...
+    // Take the required field from the available configurations
+    const config = cfgs.TSLA;
+    // Create a robot in Production mode
+    const bot = await meta.create(getTransport(config), config, WorkingEnv.production);
+
+    // Subscribe to data from the exchange in real time to work
+    // Calling the start method, returns the stop function, which, when called,
+    // will delete the strategy and close active positions on it
+    const dispose = await bot.start();
+
+    // Stop trading and restroy strategy instance
+    dispose()
+```
+
+<hr/>
+
+__Method:__
+
+```typescript
+this.getName()
+```
+
+__Description:__ Returns the name of the strategy constructor, in fact the name of the strategy. For various needs, for example, for logging, so that it is clear by what strategy the event occurred.
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { DebutOptions, BaseTransport } from '@debut/types';
+
+export class MyStrategy extends Debut {
+    // ...
+    constructor(transport: BaseTransport, opts: DebutOptions) {
+        super(transport, opts);
+
+        // Show class constructor name
+        console.log(this.getName()) // MyStrategy
+    }
+}
+```
+
+<hr/>
+
+__Method:__
+
+```typescript
+this.createOrder(operation: OrderType): Promise<ExecutedOrder>;
+```
+
+__Description:__ Creates a trade on the market with the direction [OrderType](#ordertype)
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { Candle, OrderType, DebutOptions } from '@debut/types';
+
+// Basic strategy runtime
+export class MyStrategy extends DebutOptions {
+    // ...
+    async onCandle(candle: Candle) {
+        // Create order
+       const order = await this.createOrder(OrderType.BUY);
+    }
+}
+
+```
+
+<hr/>
+
+__Method:__
+
+```typescript
+this.closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;
+```
+
+__Description:__ Closes the specified application. Accepts a previously executed order as input [ExecutedOrder](#executedorder)
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { Candle, OrderType, BaseTransport } from '@debut/types';
+
+// Basic strategy configuration
+export interface MyStrategyOptions extends DebutOptions {}
+
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+    // ...
+    async onCandle(candle: Candle) {
+        // Create order
+       const order = await this.createOrder(OrderType.BUY);
+
+        // Close order
+       await this.closeOrder(order);
+    }
+}
+```
+
+<hr/>
+
+__Method:__
+
+```typescript
+this.closeAll(collapse: boolean): Promise<ExecutedOrder[]>;
+```
+
+__Description:__ Sequentially closes all open positions from the `this.orders` array, returns the [ExecutedOrders](#executedorder) array of closed deals. **It has a `collapse` option that allows you to close all deals in one direction in one request to the exchange server**
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { Candle, OrderType, BaseTransport } from '@debut/types';
+
+// Basic strategy configuration
+export interface MyStrategyOptions extends DebutOptions {}
+
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+    // ...
+    async onCandle(candle: Candle) {
+        // Create order
+       const order1 = await this.createOrder(OrderType.BUY);
+       const order2 = await this.createOrder(OrderType.BUY);
+
+        // Close all orders in for loop with different requests to server
+       await this.closeAll();
+
+       // Close all order with only one request to server
+       await this.closeAll(true);
+    }
+}
+```
+
+<hr/>
+
+__Method:__
+
+```typescript
+this.learn(days: number): Promise<void>;
+```
+
+__Description:__ Submitting historical data to the bot as a pre-start stage. It is necessary for the bot to enter the market with these indicators and possibly open trades in order to make a smooth transition to real trades. All trades opened in the training mode will be closed safely bypassing the real balance of the broker.
+
+__Example:__
+```typescript
+const bot = await meta.create(getTransport(config), config, WorkingEnv.production);
+// Begin leanring with 60 days
+await bot.learn(60);
+
+// Start realtime ticks listening
+await bot.start();
+```
+
+<hr/>
+
+__Method:__
+***Only for Enterprise version***
+
+```typescript
+this.useMajorCandle (timeframe: TimeFrame): void;
+```
+
+__Description:__ Creation of an aggregator of candles, which will accumulate data for the formation of candles of higher timeframes and call the corresponding hook at the end of their formation.
+
+__Example:__
+
+```typescript
+import { Debut } from '@debut/community-core';
+import { DebutOptions, BaseTransport } from '@debut/types';
+
+export class MyStrategy extends Debut {
+    // ...
+    constructor(transport: BaseTransport, opts: DebutOptions) {
+        super(transport, opts);
+
+        this.useMajorCandle ('day'); // aggregator registration for daily time intervals
+        this.useMajorCandle ('4h'); // aggregator registration for 4 hour intervals
+    }
+
+    /**
+     * Hook to track candle closes from higher time frames
+     */
+    async onMajorCandle (candle: Candle, timeframe: TimeFrame) {
+        console.log (candle); // {o: ..., h: ..., l: ..., c: ..., v: ..., time: ...};
+        console.log (timeframe); // 'day' or '4h'
+
+        // Update the daily indicator, for example SMA
+        if (timeframe === 'day') {
+            this.daySMAValue = this.daySMA.nextValue(candle.c);
+        }
+    }
+}
+
+```
+
 ### Runtime Data
 
 __Property__:
@@ -117,7 +422,20 @@ __Description:__ Array of open positions [ExecutedOrder](#executedorder) in the 
 
 __Example:__
 ```typescript
-const currentOrder = this.orders[0];
+import { Debut } from '@debut/community-core';
+import { Candle } from '@debut/types';
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+
+    async onCandle(candle: Candle) {
+        const currentOrder = this.orders[0];
+
+        if (currentOrder?.type === OrderType.BUY) {
+            // do something
+        }
+        
+    }
+}
 ```
 
 <hr/>
@@ -202,156 +520,6 @@ export class MyStrategy extends Debut {
 
         // Use access to plugin for set up take profit and stop loss
         this.plugins.dynamicTakes.setForOrder(order.cid, take, stop);
-    }
-}
-
-```
-
-### Public Methods
-
-__Method__
-
-```typescript
-this.registerPlugins(plugins: PluginInterface[]);
-```
-
-__Description:__ Register plugins. It can be called at any convenient moment, but it is recommended to register all the necessary plugins at the stage of creation in the strategy constructor or in the environment constructor in the meta file
-
-__Example:__
-```typescript
-import { Debut } from '@debut/community-core';
-import { DebutOptions, BaseTransport } from '@debut/types';
-import { gridPlugin, GridPluginOptions, Grid, GridPluginAPI } from '@debut/plugin-grid';
-
-export interface MyStrategyOptions extends DebutOptions, GridPluginOptions {}
-
-export class MyStrategy extends Debut {
-    declare opts: MyStrategyOptions;
-    declare plugins: GridPluginAPI;
-
-    constructor(transport: BaseTransport, opts: MyStrategyOptions) {
-        // Register grid plugin
-        this.registerPlugins(gridPlugin(opts));
-    }
-}
-```
-
-<span class="h3">
-
-*`this.start()`*
-
-</span>
-
-__Description:__ When called, a subscription to ticks for the current transport (Binance / Tinkfff / Tester) will be created. In production, it creates a web socket connection to the exchange and receives updates by the ticker from the settings.
-
-__Example:__
-```typescript
-this.start();
-```
-
-<span class="h3">
-
-*`this.getName()`*
-
-</span>
-
-__Description:__ Returns the name of the strategy constructor, in fact the name of the strategy. For various needs, for example, for logging, so that it is clear by what strategy the event occurred.
-
-__Example:__
-```typescript
-const name = this.getName();
-console.log(name, this.orders);
-```
-
-<span class="h3">
-
-*`this.closeAll(): Promise<ExecutedOrder[]>;`*
-
-</span>
-
-__Description:__ Sequentially closes all open positions from the `this.orders` array, returns the [ExecutedOrders](#executedorder) array of closed deals
-
-__Example:__
-```typescript
-await this.closeAll();
-```
-
-__Method:__
-
-```typescript
-this.createOrder(operation: OrderType): Promise<ExecutedOrder>;
-```
-
-
-__Description:__ Creates a trade on the market with the direction [OrderType](#ordertype)
-
-__Example:__
-```typescript
-const executedOrder = await this.createOrder(OrderType.BUY);
-```
-
-<span class="h3">
-
-*`this.closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;`*
-
-</span>
-
-__Description:__ Closes the specified application. Accepts a previously executed order as input [ExecutedOrder](#executedorder)
-
-__Example:__
-```typescript
-const openedOrder = this.orders[0];
-const executedOrder = await this.closeOrder(openedOrder);
-```
-
-<span class="h3">
-
-*`this.learn(days: number): Promise<void>;`*
-
-</span>
-
-__Description:__ Submitting historical data to the bot as a pre-start stage. It is necessary for the bot to enter the market with these indicators and possibly open trades in order to make a smooth transition to real trades. All trades opened in the training mode will be closed safely bypassing the real balance of the broker.
-
-__Example:__
-```typescript
-const bot = await meta.create(getTransport(config), config, WorkingEnv.production);
-await bot.learn(60);
-await bot.start();
-```
-
-<span class="h3">
-
-* `this.useMajorCandle (timeframe: TimeFrame): void;` *
-
-</span>
-
-***Only for Enterprise version***
-
-__Description:__ Creation of an aggregator of candles, which will accumulate data for the formation of candles of higher timeframes and call the corresponding hook at the end of their formation.
-
-__Example:__
-
-```typescript
-/**
- * Debut trading strategy builder
- */
-constructor (transport: BaseTransport, opts: DebutOptions) {
-    super (transport, opts);
-    // ...
-    this.useMajorCandle ('day'); // aggregator registration for daily time intervals
-    this.useMajorCandle ('4h'); // aggregator registration for 4 hour intervals
-}
-
-/**
- * Hook to track candle closes from higher time frames
- */
-async onMajorCandle (candle: Candle, timeframe: TimeFrame) {
-    console.log (candle); // {o: ..., h: ..., l: ..., c: ..., v: ..., time: ...};
-    console.log (timeframe); // 'day' or '4h'
-
-    // Update the daily indicator, for example SMA
-    if (timeframe === 'day') {
-        this.daySMAValue = this.daySMA.nextValue (candle.c);
     }
 }
 
