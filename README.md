@@ -515,45 +515,61 @@ export class MyStrategy extends Debut {
 ### Hooks
 
 __Event name:__ One of the positions has been closed
+
 __Hook:__ `onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise <void>`
+
 __Description:__ Implement any of these methods in the strategy, and it will be automatically called upon this or that event during the strategy operation.
 
 <hr/>
 
 __Event name:__ Position has been opened
+
 __Hook:__ `onOrderOpened (order: ExecutedOrder): Promise <void>`
+
 __Description:__ The candlestick has closed and it can be processed (for example, passed to indicators):
 
 <hr/>
 
 __Event name:__ Current candle has been closed
+
 __Hook:__ `onCandle (candle: Candle): Promise <void>`
+
 __Description:__ Strategy recieve new closed candle from backtester or from broker in realtime
 
 <hr/>
 
 __Event name:__ Market tick has been recieved
+
 __Hook:__ `onTick (tick: Candle): Promise <void>`
+
 __Description:__ Strategy recieve new tick in backtesting or from broker in realtime
 
 <hr/>
 
 __Event name:__ New depth market data has been received
+
 __Hook:__ `onDepth (tick: Depth): Promise <void>`
+
 __Description:__ Depth data update receved from market. Backtesting depth does not supported yet, available only in realtime
 
 <hr/>
 
 __Event name:__ Candle from a higher timeframe has been closed
+
 *** Only for Enterprise version ***
+
 __Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+
 __Description__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
 
 <hr/>
 
 __Event name:__ Tick from
+
 *** Only for Enterprise version ***
+
 __Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+
 __Description__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
 
 <hr/>
@@ -578,88 +594,119 @@ npm run genetic -- [...args]
 <h4> Run options </h4>
 
 __Parameter:__ *`--bot=...`*
+
 __Description:__ Name of the trading robot from the file `schema.json`
+
 __Example:__ `--bot=SpikesG`
 
 <hr/>
 
 __Parameter:__ *`--ticker=...`*
+
 __Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
+
 __Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
 <hr/>
 
 __Parameter:__ *`--amount=...`*
+
 __Description:__ Initial amount for trading (from it is [equityLevel](#debutoptions)) `schema.json`
+
 __Example:__ `--amount=500`
 
 <hr/>
 
 __Parameter:__ *`--days=...`*
+
 __Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
+
 __Example:__ `--days=200`
 
 <hr/>
 
 __Parameter:__  *`--gap=...`*
+
 __Description:__ How many days to deviate from today before starting the history request
+
 __Recommendations:__ Used to create a non-training interval. If we passed the `--days=150` setting and the` --gap=50` setting, then 50 days of history will be formed to run in the tester and test on untrained data, it will be enough to pass `--days=200` in the tester, then we will capture the entire training period, plus a new 50 days of indentation
+
 __Example:__ `--gap=20`
 
 <hr/>
 
 __Parameter:__ *`--pop=...`*
+
 __Description:__ Population size in the genetic algorithm (population is the number of strategies created)
+
 __Recommendations:__ It is recommended to set the population size in the range from `100` to` 1500`, but bigger is not always better! The meaning is very individual, large populations increase the likelihood of mutations and other random phenomena. Focus on the number of generations
+
 __Example:__ `--pop=500`
 
 <hr/>
 
 __Parameter:__ *`--gen=...`*
+
 __Description:__ Number of generations in optimization
+
 __Recommendations:__ Strength of genetics in generations, recommended values are from `10` to` 100`, more is better. However, watch out for overtraining by testing the strategy against new historical data. There is a high probability of adaptation to specific conditions of price changes, with a very large number of generations.
+
 __Example:__ `--gen=20`
 
 <hr/>
 
 __Parameter:__ *`--ohlc`*
+
 __Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
+
 __Example:__ `--ohlc`
 
 <hr/>
 
 __Parameter:__ *`--best=...`*
+
 __Description:__ How many best results to output to the console at the end of optimization, by default `30`
+
 __Example:__ `--best=20`
 
 <hr/>
 
 __Parameter:__ *`--log`*
+
 __Description:__ Whether to output each generation statistics to the console
+
 __Example:__ `--log`
 
 <hr/>
 
 __Parameter:__ *`--maxThreads`*
+
 __Description:__ Limit cpu usage (no limits by default)
+
 __Example:__ `--maxThreads=8`
 
 <hr/>
 
 __Parameter:__ *`--wfo`*
+
 __Description:__ Use walk forward optimisation. Available values: `rolling`, `anchored`. See rolling and anchored modes description [here](https://www.dothefinancial.info/trading-systems/anchored-vs-rolling-walk-forward-analysis-wfa.html)
+
 __Example:__ `--wfo=rolling`
 
 <hr/>
 
 __Parameter:__ *`--gaType`*
+
 __Description:__ Available next values: `islands` and `classic`, Enables genetic island mode. See about it [here](https://www.researchgate.net/publication/2244494_The_Island_Model_Genetic_Algorithm_On_Separability_Population_Size_and_Convergence) 
+
 __Example:__ `--gaType=islands`
 
 <hr/>
 
 __Parameter:__ *`--gaContinent`*
+
 __Description:__ Use continent for genetical optimiser, by default false, available only when `--gaType` passed
+
 __Example:__ `--gaContinent`
 
 
