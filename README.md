@@ -323,7 +323,8 @@ await bot.start();
 <hr/>
 
 __Method:__
-***Only for Enterprise version***
+
+*(Only for Enterprise version)*
 
 ```typescript
 this.useMajorCandle (timeframe: TimeFrame): void;
@@ -556,7 +557,7 @@ __Description:__ Depth data update receved from market. Backtesting depth does n
 
 __Event name:__ Candle from a higher timeframe has been closed
 
-*** Only for Enterprise version ***
+*(Only for Enterprise version)*
 
 __Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
 
@@ -566,7 +567,7 @@ __Description__ New candle recieved in from higher timeframe, called in backtest
 
 __Event name:__ Tick from
 
-*** Only for Enterprise version ***
+*(Only for Enterprise version)*
 
 __Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
 
@@ -897,7 +898,9 @@ A new tick has arrived for the current candle. All ticks go to this handler. It 
 New data on the glass has been received.
 
 *`[async onMajorCandle]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
-***Only for Enterprise version***
+
+*(Only for Enterprise version)*
+
 A new candlestick has been formed for the higher timeframe, which was specified by the user when calling the `this.useMajorCandle ('1h');` method in the strategy implementation. Plugins can also independently invoke a subscription to use major frames using the plugin context `this.debut.useMajorCandle` or `ctx.debut.useMajorCandle ('1h'); `
 
 ### Execution context
