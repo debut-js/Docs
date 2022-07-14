@@ -20,7 +20,7 @@ Debut is based on the architecture of the core and add-on plugins that allow you
 - Customizable with [plugins](https://github.com/debut-js/Plugins)
 - Can use community edition for free with limitations
 
-## Brokers supported
+## Available brokers
 <p>
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/alpaca.png" alt="Alpaca API" width="64">
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/binance.png" alt="Binance API" width="64">
@@ -28,29 +28,16 @@ Debut is based on the architecture of the core and add-on plugins that allow you
 </p>
 
 Didn't see your broker? You can [donate](https://www.patreon.com/bePatron?u=57560983) for support. 
+
 ## Community edition
 We believe in the power of the community! That is why we decided to publish the project. The community version is free, but it has some limitations in commercial use (income from trading startups is not commerce), as well as technical differences in testing strategies. Join the community, join the **[developer chat](https://t.me/joinchat/Acu2sbLIy_c0OWIy)**
 
 ## Enterprise edition
 **(Available by [subscription](https://www.patreon.com/bePatron?u=57560983) for $20/mo)**
 
-### What is inside?
-
-<h5> Timeframe Aggregator </h5>
-This is a kernel module responsible for aggregating candlesticks `1min` ticks in any other available time periods.
-It allows you to create timeframes supported by `Debut` even if they are not supported by the broker. And also get access to a candlestick of any higher timeframe, for example, build daily support and resistance levels, take indicator readings from four hourly candles, and much more. Below is an example of registering access to a `day` timeframe.
-
-<h5> Advanced tick emulation </h5>
-Allows to emulate ticks in a test environment with maximum accuracy, by creating price changes based on `1min` ticks, split into open, high, low, close. To collect timeframes, the aggregation module into candles of any time interval is used.
-
-<h5> Additional callbacks in plugins </h5>
-Additional callbacks are used in the premium version of Debut to expand the functionality of creating plugins. More details can be found in the plugins description section.
-
-<h5> Alpaca </b> supports `5min`,` 15min` and other debut time frames </h5>
-Thanks to the aggregation of candles, Alpaca supports timeframes artificially, despite the lack of support on the server.
-
-<h5> `finder` analyzer. </h5>
-Creates screenshots from json files of reports and groups them according to efficiency
+* Cross timeframe candles access (from lower to higher candles)
+* Advanced tick emulation in backtesting (60+ ticks per candle)
+* Tinkoff and Alpaca supports all timeframes (programmaticaly solved broker issue)
 
 ## Live orders streaming
 
@@ -526,35 +513,50 @@ export class MyStrategy extends Debut {
 ```
 
 ### Hooks
-Hooks are a set of `protected` methods for quick access to ticks, new candles, creating deals, etc.
 
-Implement any of these methods in the strategy, and it will be automatically called upon this or that event during the strategy operation.
+__Event name:__ One of the positions has been closed
+__Hook:__ `onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise <void>`
+__Description:__ Implement any of these methods in the strategy, and it will be automatically called upon this or that event during the strategy operation.
 
-One of the positions was closed:
+<hr/>
 
-`onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise <void>`
+__Event name:__ Position has been opened
+__Hook:__ `onOrderOpened (order: ExecutedOrder): Promise <void>`
+__Description:__ The candlestick has closed and it can be processed (for example, passed to indicators):
 
-Position opened:
+<hr/>
 
-`onOrderOpened (order: ExecutedOrder): Promise <void>`
+__Event name:__ Current candle has been closed
+__Hook:__ `onCandle (candle: Candle): Promise <void>`
+__Description:__ Strategy recieve new closed candle from backtester or from broker in realtime
 
-The candlestick has closed and it can be processed (for example, passed to indicators):
+<hr/>
 
-`onCandle (candle: Candle): Promise <void>`
+__Event name:__ Market tick has been recieved
+__Hook:__ `onTick (tick: Candle): Promise <void>`
+__Description:__ Strategy recieve new tick in backtesting or from broker in realtime
 
-A new tick has arrived from the websocket of the exchange or tester:
+<hr/>
 
-`onTick (tick: Candle): Promise <void>`
+__Event name:__ New depth market data has been received
+__Hook:__ `onDepth (tick: Depth): Promise <void>`
+__Description:__ Depth data update receved from market. Backtesting depth does not supported yet, available only in realtime
 
-New data on the glass has been received:
+<hr/>
 
-`onDepth (tick: Depth): Promise <void>`
-***Subscription to Depth of Market data is activated automatically when using onDepth***
-
-A candlestick from a higher timeframe closed:
+__Event name:__ Candle from a higher timeframe has been closed
 *** Only for Enterprise version ***
+__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+__Description__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
 
-`onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+<hr/>
+
+__Event name:__ Tick from
+*** Only for Enterprise version ***
+__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+__Description__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
+
+<hr/>
 
 ## Command Line Modules
 
@@ -569,126 +571,105 @@ A single call to the genetic optimizer, used to tune a strategy for optimization
 But it can also be used as a one-time optimization on a previously known instrument, for a quick result.
 
 Started by calling the command:
-
+  
 ```bash
 npm run genetic -- [...args]
 ```
 <h4> Run options </h4>
 
-<span class="h3">
-
-*`--bot=...`*
-
-</span>
-
+__Parameter:__ *`--bot=...`*
 __Description:__ Name of the trading robot from the file `schema.json`
-
 __Example:__ `--bot=SpikesG`
 
-<span class="h3">
+<hr/>
 
-*`--ticker=...`*
-
-</span>
-
+__Parameter:__ *`--ticker=...`*
 __Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
-
 __Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
-<span class="h3">
+<hr/>
 
-*`--amount=...`*
-
-</span>
-
+__Parameter:__ *`--amount=...`*
 __Description:__ Initial amount for trading (from it is [equityLevel](#debutoptions)) `schema.json`
-
 __Example:__ `--amount=500`
 
-<span class="h3">
+<hr/>
 
-*`--days=...`*
-
-</span>
-
+__Parameter:__ *`--days=...`*
 __Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
-
 __Example:__ `--days=200`
 
-<span class="h3">
+<hr/>
 
-*`--gap=...`*
-
-</span>
-
+__Parameter:__  *`--gap=...`*
 __Description:__ How many days to deviate from today before starting the history request
-
 __Recommendations:__ Used to create a non-training interval. If we passed the `--days=150` setting and the` --gap=50` setting, then 50 days of history will be formed to run in the tester and test on untrained data, it will be enough to pass `--days=200` in the tester, then we will capture the entire training period, plus a new 50 days of indentation
-
 __Example:__ `--gap=20`
 
-<span class="h3">
+<hr/>
 
-*`--pop=...`*
-
-</span>
-
+__Parameter:__ *`--pop=...`*
 __Description:__ Population size in the genetic algorithm (population is the number of strategies created)
-
 __Recommendations:__ It is recommended to set the population size in the range from `100` to` 1500`, but bigger is not always better! The meaning is very individual, large populations increase the likelihood of mutations and other random phenomena. Focus on the number of generations
-
 __Example:__ `--pop=500`
 
-<span class="h3">
+<hr/>
 
-*`--gen=...`*
-
-</span>
-
+__Parameter:__ *`--gen=...`*
 __Description:__ Number of generations in optimization
-
 __Recommendations:__ Strength of genetics in generations, recommended values are from `10` to` 100`, more is better. However, watch out for overtraining by testing the strategy against new historical data. There is a high probability of adaptation to specific conditions of price changes, with a very large number of generations.
-
 __Example:__ `--gen=20`
 
-<span class="h3">
+<hr/>
 
-*`--ohlc`*
-
-</span>
-
+__Parameter:__ *`--ohlc`*
 __Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
-
 __Example:__ `--ohlc`
 
-<span class="h3">
+<hr/>
 
-*`--best=...`*
-
-</span>
-
+__Parameter:__ *`--best=...`*
 __Description:__ How many best results to output to the console at the end of optimization, by default `30`
-
 __Example:__ `--best=20`
 
+<hr/>
 
-<span class="h3">
-
-*`--log`*
-
-</span>
-
-__Description:__ Whether to output intermediate generation data to the console
-
-__Recommendations:__ Use when developing strategies and testing them in genetics, or generally always.
-
+__Parameter:__ *`--log`*
+__Description:__ Whether to output each generation statistics to the console
 __Example:__ `--log`
+
+<hr/>
+
+__Parameter:__ *`--maxThreads`*
+__Description:__ Limit cpu usage (no limits by default)
+__Example:__ `--maxThreads=8`
+
+<hr/>
+
+__Parameter:__ *`--wfo`*
+__Description:__ Use walk forward optimisation. Available values: `rolling`, `anchored`. See rolling and anchored modes description [here](https://www.dothefinancial.info/trading-systems/anchored-vs-rolling-walk-forward-analysis-wfa.html)
+__Example:__ `--wfo=rolling`
+
+<hr/>
+
+__Parameter:__ *`--gaType`*
+__Description:__ Available next values: `islands` and `classic`, Enables genetic island mode. See about it [here](https://www.researchgate.net/publication/2244494_The_Island_Model_Genetic_Algorithm_On_Separability_Population_Size_and_Convergence) 
+__Example:__ `--gaType=islands`
+
+<hr/>
+
+__Parameter:__ *`--gaContinent`*
+__Description:__ Use continent for genetical optimiser, by default false, available only when `--gaType` passed
+__Example:__ `--gaContinent`
+
+
+<hr/>
 
 
 Run example:
 
 ```bash
-npm run compile && npm run genetic -- --bot=SpikesG --ticker=CRVUSDT --days=180 --gap=20 --gen=20 --pop=100 --log --amount=500
+npm run compile && npm run genetic -- --bot=SpikesG --ticker=CRVUSDT --days=180 --gap=20 --gen=20 --pop=100 --log --amount=500 --wfo=rolling --maxThreads=8
 ```
 
 
