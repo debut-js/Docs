@@ -56,9 +56,8 @@ Order stream schema
 - Debut does not guarantee 100% probability of making a profit. Use it at your own peril and risk, relying on your own professionalism.
 - Cryptocurrency is a global experiment, so Debut is also. That is, both can fail at any time.
 
-## Documentation
 
-### Quick Start Guide
+## Quick Start Guide
 
 __Step 1: Install__
 
@@ -125,13 +124,13 @@ See detailed command descriptions in [strategy tester docs](#strategy-tester)
 
 <hr/>
 
-### Runtime public methods
+# Documentation
 
-__Method:__
+## Runtime public methods
 
-```typescript
-this.registerPlugins(plugins: PluginInterface[]);
-```
+### registerPlugins
+
+__Contract:__ *`this.registerPlugins(plugins: PluginInterface[]);`*
 
 __Description:__ Register plugins. It can be called at any convenient moment, but it is recommended to register all the necessary plugins at the stage of creation in the strategy constructor or in the environment constructor in the meta file
 
@@ -156,12 +155,9 @@ export class MyStrategy extends Debut {
 }
 ```
 
-<hr/>
+### start
 
-__Method:__
-```typescript
-this.start();
-```
+__Contract:__ *`this.start();`*
 
 __Description:__ When called, a subscription to ticks for the current transport (Binance / Tinkfff / Tester) will be created. In production, it creates a web socket connection to the exchange and receives updates by the ticker from the settings.
 
@@ -182,13 +178,9 @@ __Example:__
     dispose()
 ```
 
-<hr/>
+### getName
 
-__Method:__
-
-```typescript
-this.getName()
-```
+__Contract:__ *`this.getName();`*
 
 __Description:__ Returns the name of the strategy constructor, in fact the name of the strategy. For various needs, for example, for logging, so that it is clear by what strategy the event occurred.
 
@@ -208,13 +200,9 @@ export class MyStrategy extends Debut {
 }
 ```
 
-<hr/>
+### createOrder
 
-__Method:__
-
-```typescript
-this.createOrder(operation: OrderType): Promise<ExecutedOrder>;
-```
+__Contract:__ *`this.createOrder(operation: OrderType): Promise<ExecutedOrder>;`*
 
 __Description:__ Creates a trade on the market with the direction [OrderType](#ordertype)
 
@@ -234,13 +222,9 @@ export class MyStrategy extends DebutOptions {
 
 ```
 
-<hr/>
+### closeOrder
 
-__Method:__
-
-```typescript
-this.closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;
-```
+__Contract:__ *`this.closeOrder(closing: ExecutedOrder): Promise<ExecutedOrder>;`*
 
 __Description:__ Closes the specified application. Accepts a previously executed order as input [ExecutedOrder](#executedorder)
 
@@ -265,13 +249,9 @@ export class MyStrategy extends Debut {
 }
 ```
 
-<hr/>
+### closeAll
 
-__Method:__
-
-```typescript
-this.closeAll(collapse: boolean): Promise<ExecutedOrder[]>;
-```
+__Contract:__ *`this.closeAll(collapse: boolean): Promise<ExecutedOrder[]>;`*
 
 __Description:__ Sequentially closes all open positions from the `this.orders` array, returns the [ExecutedOrders](#executedorder) array of closed deals. **It has a `collapse` option that allows you to close all deals in one direction in one request to the exchange server**
 
@@ -300,13 +280,9 @@ export class MyStrategy extends Debut {
 }
 ```
 
-<hr/>
+### learn
 
-__Method:__
-
-```typescript
-this.learn(days: number): Promise<void>;
-```
+__Contract:__ *`this.learn(days: number): Promise<void>;`*
 
 __Description:__ Submitting historical data to the bot as a pre-start stage. It is necessary for the bot to enter the market with these indicators and possibly open trades in order to make a smooth transition to real trades. All trades opened in the training mode will be closed safely bypassing the real balance of the broker.
 
@@ -320,15 +296,11 @@ await bot.learn(60);
 await bot.start();
 ```
 
-<hr/>
+### useMajorCandle
 
-__Method:__
+ *(Only for Enterprise version)*
 
-*(Only for Enterprise version)*
-
-```typescript
-this.useMajorCandle (timeframe: TimeFrame): void;
-```
+__Contract:__ *`this.useMajorCandle (timeframe: TimeFrame): void;`*
 
 __Description:__ Creation of an aggregator of candles, which will accumulate data for the formation of candles of higher timeframes and call the corresponding hook at the end of their formation.
 
@@ -363,13 +335,12 @@ export class MyStrategy extends Debut {
 
 ```
 
-### Runtime Data
+## Runtime Data
 
-__Property__:
 
-```typescript
-this.candles[]
-```
+### candles
+
+__Property__: *`this.candles[]`*
 
 __Description:__ Array of candles [Candle](#candle) (last 10), `this.candles[0]` - current not closed candle, `this.candles[1]` - last known closed candle.
 
@@ -397,14 +368,9 @@ export class MyStrategy extends Debut {
 }
 
 ```
+### orders
 
-<hr/>
-
-__Property:__
-
-```typescript
-this.orders[]
-```
+__Property:__ *`this.orders[]`*
 
 __Description:__ Array of open positions [ExecutedOrder](#executedorder) in the opening order `this.orders[0]` - the first one. Deals are added synchronously to the array, first an optimistic deal is created, indicating the processing process, as soon as a response comes from the server, the deal is replaced with the original one.
 
@@ -426,13 +392,9 @@ export class MyStrategy extends Debut {
 }
 ```
 
-<hr/>
+### ordersCount
 
-__Property:__
-
-```typescript
-this.ordersCount
-```
+__Property:__ *`this.ordersCount`*
 
 __Description:__ Quick access to count of opened positions
 
@@ -459,13 +421,9 @@ export class MyStrategy extends Debut {
 }
 ```
 
-<hr/>
+### plugins
 
-__Property__:
-
-```typescript
-this.plugins
-```
+__Property__: *`this.plugins`*
 
 __Description:__ Public methods of plugins collection. The property `this.plugins` is generated automatically after [registering plugins](#public-methods). As a rule: `this.plugins[name] = PluginAPI`, where name is the unique name of the plugin.
 
@@ -513,7 +471,9 @@ export class MyStrategy extends Debut {
 
 ```
 
-### Hooks
+## Hooks
+
+### onOrderClosed
 
 __Event name:__ One of the positions has been closed
 
@@ -521,7 +481,7 @@ __Hook:__ `onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise
 
 __Description:__ Implement any of these methods in the strategy, and it will be automatically called upon this or that event during the strategy operation.
 
-<hr/>
+### onOrderOpened
 
 __Event name:__ Position has been opened
 
@@ -529,15 +489,15 @@ __Hook:__ `onOrderOpened (order: ExecutedOrder): Promise<void>`
 
 __Description:__ The candlestick has closed and it can be processed (for example, passed to indicators):
 
-<hr/>
+### onCandle
 
 __Event name:__ Current candle has been closed
 
-__Hook:__ `onCandle (candle: Candle): Promise<void>`
+__Hook:__ `onCandle(candle: Candle): Promise<void>`
 
 __Description:__ Strategy recieve new closed candle from backtester or from broker in realtime
 
-<hr/>
+### onTick
 
 __Event name:__ Market tick has been recieved
 
@@ -545,33 +505,33 @@ __Hook:__ `onTick (tick: Candle): Promise<void>`
 
 __Description:__ Strategy recieve new tick in backtesting or from broker in realtime
 
-<hr/>
+### onDepth
 
 __Event name:__ New depth market data has been received
 
-__Hook:__ `onDepth (tick: Depth): Promise<void>`
+__Hook:__ `onDepth(tick: Depth): Promise<void>`
 
 __Description:__ Depth data update receved from market. Backtesting depth does not supported yet, available only in realtime
 
-<hr/>
+### onMajorCandle
+
+*(Only for Enterprise version)*
 
 __Event name:__ Candle from a higher timeframe has been closed
 
-*(Only for Enterprise version)*
-
 __Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise<void>`
 
 __Description:__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
 
-<hr/>
-
-__Event name:__ Tick from
+### onMajorTick
 
 *(Only for Enterprise version)*
 
-__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise<void>`
+__Event name:__ Tick from major candles
 
-__Description:__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
+__Hook:__ `onMajorTick (tick: Candle, timeframe: TimeFrame): Promise<void>`
+
+__Description:__ New tick recieved in from higher timeframe, called in backtesting and working with realtime data
 
 <hr/>
 
@@ -814,7 +774,7 @@ __Example:__ `--ohlc`
 ```bash
 npm run compile && npm run testing -- --ticker=TSLA --bot=SpikesG --days=200 --olhc
 ```
-## Plugin development
+# Plugin development
 The architecture of plugins is based on the use of calls to certain functions (hereinafter hooks), in order to intercept events occurring in the system.
 Some types of hooks allow you to stop events, some have a passive status without affecting what is happening. The plugin architecture should be structured in such a way as not to affect performance in the genetic optimizer.
 
@@ -835,32 +795,34 @@ export function pluginConstructor (): PluginInterface {
 
 ```
 
-### Hooks
+# Plugin Hooks
 The entire set of plugin hooks available is listed below.
 
 ## Sync hooks
+
+### onInit
 
 __Hook:__ *`[onInit]: () => void;`*
 
 __Description:__ Plugin initialization, here you can create something or connect another plugin by its name using the call `this.findPlugin (name)`
 
-<hr/>
+### onSnapshot
 
 __Hook:__ *`[onSnapshot]: () =>  Record<string, unknown>;`*
 
 __Description:__ Get object from plugin to saving runtime snapshot data.
 
-<hr/>
+### onHydrate
 
 __Hook:__ *`[onHydrate]: (data: Record<string, unknown>) => void;`*
 
 __Description:__ Reviecve saved runtime snapshot data for current plugin. May be used for restoring after crush.
 
-<hr/>
+### onOrderUpdated
 
 __Hook:__ *`[onOrderUpdated]: (order: PendingOrder | ExecutedOrder, changes: Partial<BaseOrder>) => void;`*
 
-__Description:__ Plugin initialization, here you can create something or connect another plugin by its name using the call `this.findPlugin (name)`
+__Description:__ Order was updated. For example order position reduced.
 
 
 ## Skipping hooks
@@ -869,13 +831,13 @@ __Hook:__ *`[async onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder)
 
 __Description:__ The strategy tries to close the `closing` deal, the options for the closing deal are available as the` order` argument. The hook supports the action blocking mode if it returns `true`, in which case the trade will not be closed, but attempts to close it will continue according to the logic of the strategy.
 
-<hr/>
+### onBeforeOpen
 
 __Hook:__ *`[async onBeforeOpen]: (order: OrderOptions) => Promise<boolean | void>;`*
 
 __Description:__ The strategy tries to open a trade, trade options are available as an argument. The hook supports the action blocking mode if it returns `true`, in which case the deal will not be created.
 
-<hr/>
+### onBeforeTick
 
 __Hook:__ *`[async onBeforeTick]: (tick: Candle) => Promise<boolean | void>;`*
 
@@ -883,71 +845,73 @@ __Description:__ Before new tick has been handled by Debut plugins can intercept
 
 ## Async hooks
 
+### onStart
+
 __Hook:__ *`[async onStart]: () => Promise<void>;`*
 
 __Description:__ The strategy subscribes to stock data and receives it in real time.
 
-<hr/>
+### onDispose
 
 __Hook:__ *`[async onDispose]: () => Promise<void>;`*
 
 __Description:__ The strategy unsubscribed from the exchange data and finished its work. Good opportunity to clean up plugin memory.
 
-<hr/>
+### onOpen
 
 __Hook:__ *`[async onOpen]: (order: ExecutedOrder) => Promise<void>;`*
 
 __Description:__ The deal is created, you can get it as an argument and collect the necessary data about it. At the time the hook is called, transactions in the market have already been executed.
 
-<hr/>
+### onClose
 
 __Hook:__ *`[async onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;`*
 
 __Description:__ The deal is closed, the deal which is closed by `closing` and the deal of which we are closed by` order` are passed as arguments. At the time the hook is called, transactions in the market have already been executed.
 
-<hr/>
+### onTick
 
 __Hook:__ *`[async onTick]: (tick: Candle) => Promise<void>;`*
 
 __Description:__ A new tick has arrived for the current candle. All ticks go to this handler. It also supports blocking the event, if it returns `true`, the tick will not be passed to the strategy. Used for example to limit trading sessions. To disconnect the strategy from the market virtually depending on the time or day of the week or the phase of the moon.
 
-<hr/>
+### onCandle
 
 __Hook:__ *`[async onCandle]: (candle: Candle) => Promise<void>;`*
 
 __Description:__ The current candle has closed. These candles are available in the `candle` argument
 
-<hr/>
+### onAfterCandle
 
 __Hook:__ *`[async onAfterCandle]: (candle: Candle) => Promise<void>;`*
 
 __Descriprion:__ The current candle has closed and the `onCandle` hooks have worked, all calculation is ready for handled candle.
 
-<hr/>
+### onAfterTick
 
 __Hook:__ *`[async onAfterTick]: (tick: Candle) => Promise<void>;`*
 
 __Descriprion:__ The current tick hass been fully handled by debut and all recalculations is ready. 
 
-<hr/>
+### onDepth
 
 __Hook:__ *`[async onDepth]: (candle: Depth) => Promise<void>;`*
 
 __Description:__ New data on the glass has been received.
 
-<hr/>
+### onMajorCandle
+
+*(Only for Enterprise version)*
 
 __Hook:__ *`[async onMajorCandle]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
 
-*(Only for Enterprise version)*
-
 __Description:__ A new candlestick has been formed for the higher timeframe, which was specified by the user when calling the `this.useMajorCandle ('1h');` method in the strategy implementation. Plugins can also independently invoke a subscription to use major frames using the plugin context `this.debut.useMajorCandle` or `ctx.debut.useMajorCandle ('1h'); `
 
-<hr/>
-
-__Hook:__ *`[async onMajorTick]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
+### onMajorTick
 
 *(Only for Enterprise version)*
+
+__Hook:__ *`[async onMajorTick]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
 
 __Description:__ A new tick has been formed for the higher timeframe
 
@@ -969,8 +933,8 @@ interface PluginCtx {
 }
 ```
 
-### Examples
-#### Simple plugin
+## Examples
+### Simple plugin
 Let's consider an example of one of the simplest plugins that adds the profit to the existing balance of the strategy.
 
 ```typescript
@@ -1005,7 +969,7 @@ export function reinvestPlugin (): PluginInterface {
 
 ```
 
-#### Plugin step by step
+### Plugin step by step
 
 **Create a generic plugin type and export it**
 ```typescript
@@ -1045,7 +1009,7 @@ export interface DynamicTakesPluginAPI {
 The full plugin listing is available [here](https://github.com/debut-js/Plugins/blob/master/packages/dynamic-takes/index.ts)
 
 
-## Data Types **@debut/types**
+# Data Types **@debut/types**
 
 Data types are located in a separate package, to install, run the command
 
@@ -1053,7 +1017,7 @@ Data types are located in a separate package, to install, run the command
 npm i --save-dev @debut/types
 ```
 
-### `Candle`
+## `Candle`
 
 Market data presentation form. It is used both for ticks and for formed candles. Unified standard, independent of the choice of the trading platform.
 
@@ -1068,7 +1032,7 @@ interface Candle {
 }
 ```
 
-### `DepthOrder`
+## `DepthOrder`
 Order data in the order book
 
 ```typescript
@@ -1078,7 +1042,7 @@ interface DepthOrder {
 }
 ```
 
-### `Depth`
+## `Depth`
 Order-book dataset
 
 ```typescript
@@ -1088,13 +1052,13 @@ interface Depth {
 };
 ```
 
-### `TimeFrame`
+## `TimeFrame`
 A unified timeframe format for the strategy, the list contains only supported formats.
 
 ```typescript
 type TimeFrame = '1min' | '3min' | '5min' | '15min' | '30min' | '1h' | '2h' | '4h' | 'day' | 'week' | 'month';
 ```
-### `WorkingEnv`
+## `WorkingEnv`
 Runtime environment variables. It is necessary to separate all stages of production. Tk for different environments requires a different configuration of plugins and modes of operation. Tunable environment variables allow you to initialize only the mechanisms required for a given environment.
 
 ```typescript
@@ -1105,7 +1069,7 @@ enum WorkingEnv {
 }
 ```
 
-### `DebutOptions`
+## `DebutOptions`
 
 Basic options for any trading strategy.
 
@@ -1126,7 +1090,7 @@ interface DebutOptions {
 }
 ```
 
-### `DebutMeta`
+## `DebutMeta`
 Base class for defining strategy meta information. Used in all `meta.ts` files containing meta data.
 
 ```typescript
@@ -1140,7 +1104,7 @@ interface DebutMeta {
 }
 ```
 
-### `GeneticSchema`
+## `GeneticSchema`
 An object consisting of [Descriptors](#schemadescriptor) fields, describing the ranges of the ranking of the fields and the data types in them. Used to generate random values, during mutation in a genetic algorithm, or initially to create the first random dataset.
 
 Example:
@@ -1153,7 +1117,7 @@ const parameters: GeneticSchema <SpikesGOptions> = {
 };
 ```
 
-### `SchemaDescriptor`
+## `SchemaDescriptor`
 A data ranking format for randomly generating values. The `number`,` float` and `boolean` types are supported.
 
 ```typescript
@@ -1171,7 +1135,7 @@ type SchemaBoolDescriptor = {
 };
 ```
 
-### `OrderType`
+## `OrderType`
 Supported deal types. * Currently only market trades are supported *
 
 ```typescript
@@ -1180,7 +1144,7 @@ enum OrderType {
     'SELL' = 'SELL ', // Sell by market or short, in case of no positions and margin trading is allowed
 }
 ```
-### `ExecutedOrder`
+## `ExecutedOrder`
 
 ```typescript
 interface ExecutedOrder {
@@ -1245,14 +1209,14 @@ interface ExecutedOrder {
 }
 ```
 
-### `InstrumentType`
+## `InstrumentType`
 Types of traded asset
 
 ```typescript
 interface InstrumentType = 'FUTURES' | 'SPOT';
 ```
 
-### `Instrument`
+## `Instrument`
 Trading instrument parameters.
 
 ```typescript
