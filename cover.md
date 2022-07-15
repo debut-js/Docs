@@ -20,6 +20,6 @@
 [GitHub](https://github.com/debut-js/Strategies)
 [Docs](#Debut)
 
-![](assets/logo_transparent.png)
+![](assets/logo_transparent_web.png)
 
 ![color](#000000)
