@@ -517,7 +517,7 @@ export class MyStrategy extends Debut {
 
 __Event name:__ One of the positions has been closed
 
-__Hook:__ `onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise <void>`
+__Hook:__ `onOrderClosed (order: ExecutedOrder, closing: ExecutedOrder): Promise<void>`
 
 __Description:__ Implement any of these methods in the strategy, and it will be automatically called upon this or that event during the strategy operation.
 
@@ -525,7 +525,7 @@ __Description:__ Implement any of these methods in the strategy, and it will be 
 
 __Event name:__ Position has been opened
 
-__Hook:__ `onOrderOpened (order: ExecutedOrder): Promise <void>`
+__Hook:__ `onOrderOpened (order: ExecutedOrder): Promise<void>`
 
 __Description:__ The candlestick has closed and it can be processed (for example, passed to indicators):
 
@@ -533,7 +533,7 @@ __Description:__ The candlestick has closed and it can be processed (for example
 
 __Event name:__ Current candle has been closed
 
-__Hook:__ `onCandle (candle: Candle): Promise <void>`
+__Hook:__ `onCandle (candle: Candle): Promise<void>`
 
 __Description:__ Strategy recieve new closed candle from backtester or from broker in realtime
 
@@ -541,7 +541,7 @@ __Description:__ Strategy recieve new closed candle from backtester or from brok
 
 __Event name:__ Market tick has been recieved
 
-__Hook:__ `onTick (tick: Candle): Promise <void>`
+__Hook:__ `onTick (tick: Candle): Promise<void>`
 
 __Description:__ Strategy recieve new tick in backtesting or from broker in realtime
 
@@ -549,7 +549,7 @@ __Description:__ Strategy recieve new tick in backtesting or from broker in real
 
 __Event name:__ New depth market data has been received
 
-__Hook:__ `onDepth (tick: Depth): Promise <void>`
+__Hook:__ `onDepth (tick: Depth): Promise<void>`
 
 __Description:__ Depth data update receved from market. Backtesting depth does not supported yet, available only in realtime
 
@@ -559,9 +559,9 @@ __Event name:__ Candle from a higher timeframe has been closed
 
 *(Only for Enterprise version)*
 
-__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise<void>`
 
-__Description__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
+__Description:__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
 
 <hr/>
 
@@ -569,9 +569,9 @@ __Event name:__ Tick from
 
 *(Only for Enterprise version)*
 
-__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise <void>`
+__Hook:__ `onMajorCandle (candle: Candle, timeframe: TimeFrame): Promise<void>`
 
-__Description__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
+__Description:__ New candle recieved in from higher timeframe, called in backtesting and working with realtime data
 
 <hr/>
 
@@ -740,11 +740,8 @@ npm run finder -- [...args]
 
 The main parameters are the same as for [genetic](#Single-genetic), with one difference
 
-<span class="h3">
 
-*`--crypt`*
-
-</span>
+__Parameter:__ *`--crypt`*
 
 __Description:__ Whether to use the file `crypt.json` for work (the default is` stocks.json` with a list of stocks)
 
@@ -754,12 +751,12 @@ __Recommendations:__ The process finishes after processing one ticker, for cycli
 
 *Mac/Linux*
 ```bash
-npm run compile && pm2 start finder -n instance -- --ticker=NDAQ --bot=SpikesG --amount=1000 --days=1000 --log --useTicks --pop=100 --gen=50
+npm run compile && pm2 start finder -n instance -- --ticker=NDAQ --bot=SpikesG --amount=1000 --days=1000 --log --useTicks --pop=100 --gen=50 --wfo-rolling
 ```
 
 *Windows:*
 ```bash
-npm run compile && pm2 start node_modules/@debut/enterprise-core/lib/cli/finder.js -f -- --ticker=ZILUSDT --bot=SpikesG --amount=500 --gen=50 --pop=300 --days=180 --gap=20 --log --useTicks --crypt
+npm run compile && pm2 start node_modules/@debut/enterprise-core/lib/cli/finder.js -f -- --ticker=ZILUSDT --bot=SpikesG --amount=500 --gen=50 --pop=300 --days=180 --gap=20 --log --useTicks --crypt --wfo=rolling
 ```
 ### Strategy tester **tester**
 
@@ -771,41 +768,32 @@ npm run testing - [... args]
 ```
 
 <h4> Run Options </h4>
-<span class="h3">
 
-*`--bot=...`*
-
-</span>
+__Parameter:__ *`--bot=...`*
 
 __Description:__ Name of the trading robot from the file `schema.json`
 
 __Example:__ `--bot=SpikesG`
 
-<span class="h3">
+<hr/>
 
-*`--ticker=...`*
-
-</span>
+__Parameter:__ *`--ticker=...`*
 
 __Description:__ Tool for work, must be in the file `cfgs.ts`, in the directory of the strategy
 
 __Example:__ `--ticker=AAPL`,` --ticker=BTCUSDT`
 
-<span class="h3">
+<hr/>
 
-*`--days=...`*
-
-</span>
+__Parameter:__ *`--days=...`*
 
 __Description:__ Number of days to download history, if any. The loaded history is saved in the `./History` directory for reuse
 
 __Example:__ `--days=200`
 
-<span class="h3">
+<hr/>
 
-*`--gap=...`*
-
-</span>
+__Parameter:__ *`--gap=...`*
 
 __Description:__ How many days to deviate from today before starting the history request
 
@@ -813,17 +801,14 @@ __Recommendations:__ Used to create a non-training interval. If we passed the `-
 
 __Example:__ `--gap=20`
 
-<span class="h3">
+<hr/>
 
-*`--ohlc`*
-
-</span>
+__Parameter:__ *`--ohlc`*
 
 __Description:__ The mechanism is designed for closer accurate tracking of price changes. Splits each candle in history into 4 ticks.
 
 __Example:__ `--ohlc`
 
-<span class="h3">
 
 *Run example:*
 ```bash
@@ -853,55 +838,119 @@ export function pluginConstructor (): PluginInterface {
 ### Hooks
 The entire set of plugin hooks available is listed below.
 
-* `[onInit]: () => void;` *
+## Sync hooks
 
-Plugin initialization, here you can create something or connect another plugin by its name using the call `this.findPlugin (name)`
+__Hook:__ *`[onInit]: () => void;`*
 
-* `[async onStart]: () => Promise <void>;` *
+__Description:__ Plugin initialization, here you can create something or connect another plugin by its name using the call `this.findPlugin (name)`
 
-The strategy subscribes to stock data and receives it in real time.
+<hr/>
 
-* `[async onDispose]: () => Promise <void>;` *
+__Hook:__ *`[onSnapshot]: () =>  Record<string, unknown>;`*
 
-The strategy unsubscribed from the exchange data and finished its work. Good opportunity to clean up plugin memory.
+__Description:__ Get object from plugin to saving runtime snapshot data.
 
-* `[async onBeforeOpen]: (order: OrderOptions) => Promise <boolean | void>; `*
+<hr/>
 
-The strategy tries to open a trade, trade options are available as an argument. The hook supports the action blocking mode if it returns `true`, in which case the deal will not be created.
+__Hook:__ *`[onHydrate]: (data: Record<string, unknown>) => void;`*
 
-* `[async onOpen]: (order: ExecutedOrder) => Promise <void>;` *
+__Description:__ Reviecve saved runtime snapshot data for current plugin. May be used for restoring after crush.
 
-The deal is created, you can get it as an argument and collect the necessary data about it. At the time the hook is called, transactions in the market have already been executed.
+<hr/>
 
-* `[async onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder) => Promise <boolean | void>; `*
+__Hook:__ *`[onOrderUpdated]: (order: PendingOrder | ExecutedOrder, changes: Partial<BaseOrder>) => void;`*
 
-The strategy tries to close the `closing` deal, the options for the closing deal are available as the` order` argument. The hook supports the action blocking mode if it returns `true`, in which case the trade will not be closed, but attempts to close it will continue according to the logic of the strategy.
+__Description:__ Plugin initialization, here you can create something or connect another plugin by its name using the call `this.findPlugin (name)`
 
-* `[async onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise <void>;` *
 
-The deal is closed, the deal which is closed by `closing` and the deal of which we are closed by` order` are passed as arguments. At the time the hook is called, transactions in the market have already been executed.
+## Skipping hooks
 
-* `[async onCandle]: (candle: Candle) => Promise <void>;` *
+__Hook:__ *`[async onBeforeClose]: (order: OrderOptions, closing: ExecutedOrder) => Promise<boolean | void>;`*
 
-The current candle has closed. These candles are available in the `candle` argument
+__Description:__ The strategy tries to close the `closing` deal, the options for the closing deal are available as the` order` argument. The hook supports the action blocking mode if it returns `true`, in which case the trade will not be closed, but attempts to close it will continue according to the logic of the strategy.
 
-* `[async onAfterCandle]: (candle: Candle) => Promise <void>;` *
+<hr/>
 
-The current candle has closed and the `onCandle` hooks have worked, you can do something.
+__Hook:__ *`[async onBeforeOpen]: (order: OrderOptions) => Promise<boolean | void>;`*
 
-* `[async onTick]: (tick: Candle) => Promise <void>;` *
+__Description:__ The strategy tries to open a trade, trade options are available as an argument. The hook supports the action blocking mode if it returns `true`, in which case the deal will not be created.
 
-A new tick has arrived for the current candle. All ticks go to this handler. It also supports blocking the event, if it returns `true`, the tick will not be passed to the strategy. Used for example to limit trading sessions. To disconnect the strategy from the market virtually depending on the time or day of the week or the phase of the moon.
+<hr/>
 
-*`[async onDepth]: (candle: Depth) => Promise <void>;`*
+__Hook:__ *`[async onBeforeTick]: (tick: Candle) => Promise<boolean | void>;`*
 
-New data on the glass has been received.
+__Description:__ Before new tick has been handled by Debut plugins can intercept candle data and prevent next execution by return `true` - mean skip tick.
 
-*`[async onMajorCandle]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
+## Async hooks
+
+__Hook:__ *`[async onStart]: () => Promise<void>;`*
+
+__Description:__ The strategy subscribes to stock data and receives it in real time.
+
+<hr/>
+
+__Hook:__ *`[async onDispose]: () => Promise<void>;`*
+
+__Description:__ The strategy unsubscribed from the exchange data and finished its work. Good opportunity to clean up plugin memory.
+
+<hr/>
+
+__Hook:__ *`[async onOpen]: (order: ExecutedOrder) => Promise<void>;`*
+
+__Description:__ The deal is created, you can get it as an argument and collect the necessary data about it. At the time the hook is called, transactions in the market have already been executed.
+
+<hr/>
+
+__Hook:__ *`[async onClose]: (order: ExecutedOrder, closing: ExecutedOrder) => Promise<void>;`*
+
+__Description:__ The deal is closed, the deal which is closed by `closing` and the deal of which we are closed by` order` are passed as arguments. At the time the hook is called, transactions in the market have already been executed.
+
+<hr/>
+
+__Hook:__ *`[async onTick]: (tick: Candle) => Promise<void>;`*
+
+__Description:__ A new tick has arrived for the current candle. All ticks go to this handler. It also supports blocking the event, if it returns `true`, the tick will not be passed to the strategy. Used for example to limit trading sessions. To disconnect the strategy from the market virtually depending on the time or day of the week or the phase of the moon.
+
+<hr/>
+
+__Hook:__ *`[async onCandle]: (candle: Candle) => Promise<void>;`*
+
+__Description:__ The current candle has closed. These candles are available in the `candle` argument
+
+<hr/>
+
+__Hook:__ *`[async onAfterCandle]: (candle: Candle) => Promise<void>;`*
+
+__Descriprion:__ The current candle has closed and the `onCandle` hooks have worked, all calculation is ready for handled candle.
+
+<hr/>
+
+__Hook:__ *`[async onAfterTick]: (tick: Candle) => Promise<void>;`*
+
+__Descriprion:__ The current tick hass been fully handled by debut and all recalculations is ready. 
+
+<hr/>
+
+__Hook:__ *`[async onDepth]: (candle: Depth) => Promise<void>;`*
+
+__Description:__ New data on the glass has been received.
+
+<hr/>
+
+__Hook:__ *`[async onMajorCandle]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
 
 *(Only for Enterprise version)*
 
-A new candlestick has been formed for the higher timeframe, which was specified by the user when calling the `this.useMajorCandle ('1h');` method in the strategy implementation. Plugins can also independently invoke a subscription to use major frames using the plugin context `this.debut.useMajorCandle` or `ctx.debut.useMajorCandle ('1h'); `
+__Description:__ A new candlestick has been formed for the higher timeframe, which was specified by the user when calling the `this.useMajorCandle ('1h');` method in the strategy implementation. Plugins can also independently invoke a subscription to use major frames using the plugin context `this.debut.useMajorCandle` or `ctx.debut.useMajorCandle ('1h'); `
+
+<hr/>
+
+__Hook:__ *`[async onMajorTick]: (tick: Candle, timeframe: TimeFrame) => Promise<void>;`*
+
+*(Only for Enterprise version)*
+
+__Description:__ A new tick has been formed for the higher timeframe
+
 
 ### Execution context
 
@@ -1086,8 +1135,8 @@ interface DebutMeta {
     score: (bot: DebutCore) => number; // Method for calculating efficiency in genetic optimization
     validate: (cfg: DebutOptions) => false | DebutOptions; // Validate the configuration
     stats: (bot: DebutCore) => unknown; // Method for getting statistics on a robot, any statistics plugin can be used
-    create: (transport: BaseTransport, cfg: DebutOptions, env: WorkingEnv) => Promise <DebutCore>; // Strategy creation method
-    ticksFilter ?: (solution: DebutOptions) => (tick: Candle) => boolean; // Filtering ticks, to remove them from history during testing, also works for a geneticist
+    create: (transport: BaseTransport, cfg: DebutOptions, env: WorkingEnv) => Promise<DebutCore>; // Strategy creation method
+    ticksFilter?: (solution: DebutOptions) => (tick: Candle) => boolean; // Filtering ticks, to remove them from history during testing, also works for a geneticist
 }
 ```
 
