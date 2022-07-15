@@ -249,6 +249,33 @@ export class MyStrategy extends Debut {
 }
 ```
 
+### reduceOrder
+
+__Contract:__ *`reduceOrder(order: ExecutedOrder | PendingOrder, reduce: number): Promise<ExecutedOrder>;`*
+
+__Description:__ Partial close for passed `order`, second argument is `reduce` - this is how many percent are closed. For example reduce = 0.25 mean 25% of order will be closed
+
+__Example:__
+```typescript
+import { Debut } from '@debut/community-core';
+import { Candle, OrderType, BaseTransport } from '@debut/types';
+
+// Basic strategy configuration
+export interface MyStrategyOptions extends DebutOptions {}
+
+// Basic strategy runtime
+export class MyStrategy extends Debut {
+    // ...
+    async onCandle(candle: Candle) {
+        // Create order
+       const order = await this.createOrder(OrderType.BUY);
+
+        // Close 35% of order
+       await this.reduceOrder(order, 0.35);
+    }
+}
+```
+
 ### closeAll
 
 __Contract:__ *`this.closeAll(collapse: boolean): Promise<ExecutedOrder[]>;`*
