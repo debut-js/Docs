@@ -20,6 +20,6 @@
 [GitHub](https://github.com/debut-js/Strategies)
 [Docs](#debut-trading-framework)
 
-![](assets/logo_transparent_web.png)
+![](assets/logo_transparent.png)
 
 ![color](#000000)
