@@ -1264,10 +1264,3 @@ interface Instrument {
     id: string;
 }
 ```
-
-<hr>
-
-<center>
-<a href="./user-agreement">User Agreement</a> |
-<a href="./contacts">Contacts</a>
-</center>
