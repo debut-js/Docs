@@ -1,4 +1,4 @@
 
 ---
 
-[User Agreement](./user-agreement) | [Contacts](./contacts)
+[User Agreement](/user-agreement/) | [Contacts](/contacts/)
