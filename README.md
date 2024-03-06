@@ -25,6 +25,7 @@ Debut is based on the architecture of the core and add-on plugins that allow you
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/alpaca.png" alt="Alpaca API" width="64">
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/binance.png" alt="Binance API" width="64">
     <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/tinkoff.png" alt="Tinkoff API (Russia only)" width="64">
+    <img src="https://raw.githubusercontent.com/debut-js/Core/master/.github/assets/ibkr.png" alt="Interactive Brokers (beta)" width="64">
 </p>
 
 Didn't see your broker? You can [donate](https://www.patreon.com/bePatron?u=57560983) for support. 
