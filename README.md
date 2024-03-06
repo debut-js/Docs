@@ -68,6 +68,7 @@ Follow broker instruction and get API access token. The access level is required
 
 Broker API guides: [Tinkoff instructions](https://tinkoff.github.io/investAPI/token/) or
 [Binance instructions](https://www.binance.com/en/support/faq/360002502072)
+For interactive brokers you need to copose docker image from [this](https://github.com/extrange/ibkr-docker?tab=readme-ov-file) repo
 
 Then create tokens file `.tokens.json` in root directory via copy and rename file `.token.example.json`. Just replace placeholders by you broker API access tokens and remove unused.
 
